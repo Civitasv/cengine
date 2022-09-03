@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Cazel\Log.h" />
     <ClInclude Include="src\Cazel.h" />
     <ClInclude Include="src\Cazel\Application.h" />
     <ClInclude Include="src\Cazel\Core.h" />
     <ClInclude Include="src\Cazel\EntryPoint.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Cazel\Log.cpp" />
     <ClCompile Include="src\Cazel\Application.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -101,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>CZ_PLATFORM_WINDOWS;CZ_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cazel/vendor/spdlog/include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cazel/vendor/spdlog/include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
