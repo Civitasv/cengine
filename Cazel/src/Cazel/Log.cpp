@@ -1,4 +1,4 @@
-#include "Log.h"
+#include "Cazel/Log.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace Cazel {
