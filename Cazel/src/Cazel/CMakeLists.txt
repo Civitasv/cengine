@@ -1,5 +1,5 @@
 # It's dynamic lib
-add_library(Cazel SHARED Application.cpp Log.cpp)
+add_library(Cazel SHARED Application.cpp Log.cpp "../../include/Cazel/Events/ApplicationEvent.h")
 
 target_compile_definitions(Cazel PRIVATE 
 	CZ_PLATFORM_WINDOWS CZ_BUILD_DLL)

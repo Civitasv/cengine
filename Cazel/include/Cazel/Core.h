@@ -11,3 +11,5 @@
 #else
 #error CAZEL ONLY SUPPORT WINDOWS!
 #endif
+
+#define BIT(x) (1 << x)
