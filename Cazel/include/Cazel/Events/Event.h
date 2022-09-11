@@ -1,9 +1,7 @@
 #pragma once
 
-#include <functional>
-#include <string>
-
-#include "../Core.h"
+#include "czpch.h"
+#include "Cazel/Core.h"
 
 namespace Cazel {
 /// Events in Cazel are currently blocking, meaning when an event

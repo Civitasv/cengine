@@ -2,6 +2,7 @@
 
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Log.h"
+#include "czpch.h"
 
 namespace Cazel {
 
