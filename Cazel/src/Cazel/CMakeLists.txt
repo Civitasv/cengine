@@ -5,8 +5,10 @@ target_compile_definitions(Cazel PRIVATE
 	CZ_PLATFORM_WINDOWS CZ_BUILD_DLL)
 
 target_include_directories(Cazel PUBLIC 
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/vendor/spdlog/include)
+	${PROJECT_SOURCE_DIR}/include)
+
+find_package(OpenGL REQUIRED)
+target_link_libraries(Cazel spdlog glfw OpenGL::GL)
 
 set_target_properties(Cazel
 	PROPERTIES

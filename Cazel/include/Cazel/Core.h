@@ -12,4 +12,24 @@
 #error CAZEL ONLY SUPPORT WINDOWS!
 #endif
 
+#ifdef CZ_ENABLE_ASSERTS
+#define CZ_ASSERT(x, ...)                             \
+  {                                                   \
+    if (!(x)) {                                       \
+      CZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
+      __debugbreak();                                 \
+    }                                                 \
+  }
+#define CZ_CORE_ASSERT(x, ...)                             \
+  {                                                        \
+    if (!(x)) {                                            \
+      CZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
+      __debugbreak();                                      \
+    }                                                      \
+  }
+#else
+#define CZ_ASSERT(x, ...)
+#define CZ_CORE_ASSERT(x, ...)
+#endif
+
 #define BIT(x) (1 << x)

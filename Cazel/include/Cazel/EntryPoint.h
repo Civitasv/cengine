@@ -2,8 +2,8 @@
 
 #ifdef CZ_PLATFORM_WINDOWS
 
-#include "Application.h"
-#include "Log.h"
+#include "Cazel/Application.h"
+#include "Cazel/Log.h"
 
 int main(int argc, char** argv) {
   Cazel::Log::Init();

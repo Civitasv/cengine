@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Event.h"
+#include "Cazel/Events/Event.h"
 
 namespace Cazel {
 class CAZEL_API WindowResizeEvent : public Event {
