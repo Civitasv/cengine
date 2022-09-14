@@ -15,6 +15,8 @@ class CAZEL_API Application {
 
   void Run();
 
+  /// @brief All events will be handled by this function.
+  /// @param e event, see Events directory.
   void OnEvent(Event& e);
 
  private:

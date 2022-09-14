@@ -24,6 +24,8 @@ void Application::Run() {
   }
 }
 
+/// @brief Higher layer of callback.
+/// @param e event to be handled.
 void Application::OnEvent(Event& e) {
   EventDispatcher dispatcher(e);
   dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));

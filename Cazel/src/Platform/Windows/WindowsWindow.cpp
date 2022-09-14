@@ -62,6 +62,7 @@ void WindowsWindow::Init(const WindowProps& props) {
         data.Height = height;
 
         WindowResizeEvent event(width, height);
+        // lower layer of callback.
         data.EventCallback(event);
       });
 
