@@ -9,6 +9,10 @@
 #include "Cazel/EntryPoint.h"
 // ------------------
 
+// -- Layer ---
+#include "Cazel/Layer.h"
+// ----------
+
 // -- Log ---
 #include "Cazel/Log.h"
 // ----------

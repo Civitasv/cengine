@@ -57,10 +57,9 @@ enum EventCategory {
   virtual int GetCategoryFlags() const override { return category; }
 
 class CAZEL_API Event {
-  // make class EventDispatcher can access its private memebers
-  friend class EventDispatcher;
-
  public:
+   bool Handled = false;
+
   virtual EventType GetEventType() const = 0;
   virtual const char* GetName() const = 0;
   virtual int GetCategoryFlags() const = 0;
@@ -69,9 +68,6 @@ class CAZEL_API Event {
   inline bool IsInCategory(EventCategory category) {
     return GetCategoryFlags() & category;
   }
-
- protected:
-  bool m_Handled = false;  // whether need to propagate
 };
 
 class EventDispatcher {
@@ -87,7 +83,7 @@ class EventDispatcher {
   template <typename T>
   bool Dispatch(EventFn<T> func) {
     if (m_Event.GetEventType() == T::GetStaticType()) {
-      m_Event.m_Handled = func(*dynamic_cast<T*>(&m_Event));
+      m_Event.Handled = func(*dynamic_cast<T*>(&m_Event));
       return true;
     }
     return false;
