@@ -1,12 +1,16 @@
 #pragma once
 
 #include "Cazel/Window.h"
+
+#define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
+
+#include "glad/gl.h"
 
 namespace Cazel {
 class LinuxWindow : public Window {
- public:
-  LinuxWindow(const WindowProps& props);
+public:
+  LinuxWindow(const WindowProps &props);
   virtual ~LinuxWindow();
 
   void OnUpdate() override;
@@ -15,18 +19,18 @@ class LinuxWindow : public Window {
   inline unsigned int GetHeight() const override { return m_Data.Height; }
 
   // Window attributes
-  inline void SetEventCallback(const EventCallbackFn& callback) override {
+  inline void SetEventCallback(const EventCallbackFn &callback) override {
     m_Data.EventCallback = callback;
   }
   void SetVSync(bool enabled) override;
   bool IsVSync() const override;
 
- private:
-  virtual void Init(const WindowProps& props);
+private:
+  virtual void Init(const WindowProps &props);
   virtual void Shutdown();
 
- private:
-  GLFWwindow* m_Window;
+private:
+  GLFWwindow *m_Window;
 
   struct WindowData {
     std::string Title;
@@ -38,4 +42,4 @@ class LinuxWindow : public Window {
 
   WindowData m_Data;
 };
-};
+}; // namespace Cazel

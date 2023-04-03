@@ -3,7 +3,10 @@
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Events/KeyEvent.h"
 #include "Cazel/Events/MouseEvent.h"
+#include "Cazel/Log.h"
+#include "GLFW/glfw3.h"
 #include "czpch.h"
+#include "glad/gl.h"
 
 namespace Cazel {
 static bool s_GLFWInitialized = false;
@@ -49,6 +52,13 @@ void LinuxWindow::Init(const WindowProps &props) {
                               nullptr, nullptr);
 
   glfwMakeContextCurrent(m_Window);
+
+  // Initialize Glad
+  int status = gladLoadGL((GLADloadfunc)glfwGetProcAddress);
+  CZ_CORE_ASSERT(status, "Failed to initialize OpenGL context");
+  CZ_CORE_INFO("Loaded OpenGL, VERSION: {0}.{1}", GLAD_VERSION_MAJOR(status),
+               GLAD_VERSION_MINOR(status));
+
   glfwSetWindowUserPointer(m_Window, &m_Data);
 
   SetVSync(true);

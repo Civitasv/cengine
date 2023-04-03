@@ -1,5 +1,7 @@
 #pragma once
 
+#define CZ_ENABLE_ASSERTS
+
 #if defined(_MSC_VER)
 //  Microsoft
 #define CAZEL_API __declspec(dllexport)
@@ -17,14 +19,12 @@
   {                                                                            \
     if (!(x)) {                                                                \
       CZ_ERROR("Assertion Failed: {0}", __VA_ARGS__);                          \
-      __debugbreak();                                                          \
     }                                                                          \
   }
 #define CZ_CORE_ASSERT(x, ...)                                                 \
   {                                                                            \
     if (!(x)) {                                                                \
       CZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);                     \
-      __debugbreak();                                                          \
     }                                                                          \
   }
 #else
