@@ -48,16 +48,16 @@ enum EventCategory {
 
 // ## 号是连接符
 // # 号用于获取其字符串表示
-#define EVENT_CLASS_TYPE(type)                                                 \
-  static EventType GetStaticType() { return EventType::type; }                 \
-  virtual EventType GetEventType() const override { return GetStaticType(); }  \
+#define EVENT_CLASS_TYPE(type)                                                \
+  static EventType GetStaticType() { return EventType::type; }                \
+  virtual EventType GetEventType() const override { return GetStaticType(); } \
   virtual const char *GetName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category)                                         \
+#define EVENT_CLASS_CATEGORY(category) \
   virtual int GetCategoryFlags() const override { return category; }
 
 class CAZEL_API Event {
-public:
+ public:
   bool Handled = false;
 
   virtual EventType GetEventType() const = 0;
@@ -74,24 +74,26 @@ class EventDispatcher {
   /// @brief Event callback, it will return whether this
   /// event shall still be propagated.
   /// @tparam T Event Type
-  template <typename T> using EventFn = std::function<bool(T &)>;
+  template <typename T>
+  using EventFn = std::function<bool(T &)>;
 
-public:
+ public:
   EventDispatcher(Event &event) : m_Event(event) {}
 
-  template <typename T> bool Dispatch(EventFn<T> func) {
+  template <typename T>
+  bool Dispatch(EventFn<T> func) {
     if (m_Event.GetEventType() == T::GetStaticType()) {
-      m_Event.Handled = func(*dynamic_cast<T *>(&m_Event)); // 向下转型
+      m_Event.Handled = func(*dynamic_cast<T *>(&m_Event));  // 向下转型
       return true;
     }
     return false;
   }
 
-private:
+ private:
   Event &m_Event;
 };
 
 inline std::ostream &operator<<(std::ostream &os, const Event &e) {
   return os << e.ToString();
 }
-} // namespace Cazel
+}  // namespace Cazel

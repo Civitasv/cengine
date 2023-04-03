@@ -5,6 +5,7 @@
 #include "czpch.h"
 
 namespace Cazel {
+/// @brief 窗口相关属性，包括名称、高度、宽度
 struct WindowProps {
   std::string Title;
   unsigned int Width;
@@ -15,6 +16,7 @@ struct WindowProps {
       : Title(title), Width(width), Height(height) {}
 };
 
+/// @brief 窗口类
 class CAZEL_API Window {
  public:
   using EventCallbackFn = std::function<void(Event&)>;

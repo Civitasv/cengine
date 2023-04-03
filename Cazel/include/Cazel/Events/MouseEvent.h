@@ -3,8 +3,10 @@
 #include "Cazel/Events/Event.h"
 
 namespace Cazel {
+/// @brief 鼠标相关事件，包括 MouseMovedEvent, MouseScrolledEvent,
+/// MouseButtonPressedEvent, MouseButtonReleasedEvent 事件
 class CAZEL_API MouseMovedEvent : public Event {
-public:
+ public:
   MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
 
   inline float GetX() const { return m_MouseX; }
@@ -19,12 +21,12 @@ public:
   EVENT_CLASS_TYPE(MouseMoved)
   EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
-private:
+ private:
   float m_MouseX, m_MouseY;
 };
 
 class CAZEL_API MouseScrolledEvent : public Event {
-public:
+ public:
   MouseScrolledEvent(float xOffset, float yOffset)
       : m_XOffset(xOffset), m_YOffset(yOffset) {}
 
@@ -39,23 +41,23 @@ public:
 
   EVENT_CLASS_TYPE(MouseScrolled)
   EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
-private:
+ private:
   float m_XOffset, m_YOffset;
 };
 
 class CAZEL_API MouseButtonEvent : public Event {
-public:
+ public:
   inline int GetMouseButton() const { return m_Button; }
 
   EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
-protected:
+ protected:
   MouseButtonEvent(int button) : m_Button(button) {}
 
   int m_Button;
 };
 
 class CAZEL_API MouseButtonPressedEvent : public MouseButtonEvent {
-public:
+ public:
   MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
 
   std::string ToString() const override {
@@ -68,7 +70,7 @@ public:
 };
 
 class CAZEL_API MouseButtonReleasedEvent : public MouseButtonEvent {
-public:
+ public:
   MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
 
   std::string ToString() const override {
@@ -79,4 +81,4 @@ public:
 
   EVENT_CLASS_TYPE(MouseButtonReleased)
 };
-} // namespace Cazel
+}  // namespace Cazel
