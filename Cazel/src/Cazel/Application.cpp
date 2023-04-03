@@ -1,4 +1,4 @@
-#include "Cazel/Application.h"
+ï»¿#include "Cazel/Application.h"
 
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Log.h"
@@ -20,8 +20,8 @@ void Application::Run() {
     glClearColor(1, 0, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    for (Layer* layer : m_LayerStack) {
-      layer->OnUpdate();  // ¸üĞÂµÄÊ±ºò£¬ÊÇ´ÓµÚÒ»¸öµ½×îºóÒ»¸ö
+    for (Layer *layer : m_LayerStack) {
+      layer->OnUpdate(); // æ›´æ–°çš„æ—¶å€™ï¼Œæ˜¯ä»ç¬¬ä¸€ä¸ªåˆ°æœ€åä¸€ä¸ª
     }
     m_Window->OnUpdate();
   }
@@ -29,26 +29,26 @@ void Application::Run() {
 
 /// @brief Higher layer of callback.
 /// @param e event to be handled.
-void Application::OnEvent(Event& e) {
+void Application::OnEvent(Event &e) {
   EventDispatcher dispatcher(e);
   dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
 
   for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
-    (*--it)->OnEvent(e); // ´¦ÀíÊÂ¼şµÄÊ±ºò£¬ÊÇ´Ó×îºóÒ»¸öµ½µÚÒ»¸ö
+    (*--it)->OnEvent(e); // å¤„ç†äº‹ä»¶çš„æ—¶å€™ï¼Œæ˜¯ä»æœ€åä¸€ä¸ªåˆ°ç¬¬ä¸€ä¸ª
     if (e.Handled) {
       break;
     }
   }
 }
 
-void Application::PushLayer(Layer* layer) { m_LayerStack.PushLayer(layer); }
+void Application::PushLayer(Layer *layer) { m_LayerStack.PushLayer(layer); }
 
-void Application::PushOverlay(Layer* overlay) {
+void Application::PushOverlay(Layer *overlay) {
   m_LayerStack.PushOverlay(overlay);
 }
 
-bool Application::OnWindowClose(WindowCloseEvent& e) {
+bool Application::OnWindowClose(WindowCloseEvent &e) {
   m_Running = false;
   return true;
 }
-}  // namespace Cazel
+} // namespace Cazel

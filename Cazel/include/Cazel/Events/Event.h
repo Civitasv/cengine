@@ -81,7 +81,7 @@ public:
 
   template <typename T> bool Dispatch(EventFn<T> func) {
     if (m_Event.GetEventType() == T::GetStaticType()) {
-      m_Event.Handled = func(*dynamic_cast<T *>(&m_Event));
+      m_Event.Handled = func(*dynamic_cast<T *>(&m_Event)); // 向下转型
       return true;
     }
     return false;

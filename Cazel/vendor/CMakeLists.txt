@@ -5,3 +5,5 @@ add_subdirectory(GLFW)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_subdirectory(spdlog)
+
+add_subdirectory(GLAD)
