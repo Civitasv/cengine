@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 
-#include "czpch.h"
 #include "Cazel/Core.h"
+#include "czpch.h"
 
 namespace Cazel {
 /// Events in Cazel are currently blocking, meaning when an event
@@ -31,12 +31,12 @@ enum class EventType {
   MouseScrolled
 };
 
-/// @brief ¶ÔÉÏÊö EventType ½øĞĞ¹éÀà
-/// ¿ÉÒÔÊ¹ÓÃ item_category & category Î»ÔËËãÅĞ¶ÏÄ³ event µÄ
-/// category ÊÇ·ñ°üÀ¨Ä³ category£¬Èç¹û²»µÈÓÚ 0£¬Ôò°üÀ¨¸Ã category
-/// ÀıÈç£¬KeyEvent µÄ category ÊÇ EventCategoryKeyboard | EventCategoryInput£¬
-/// ÕâÑùÊ¹ÓÃÎ»ÔËËã¼ÆËã event µÄ category ºÍ EventCategoryKeyboard »ò
-/// EventCategoryInput µÄ½á¹û¶¼»áÊÇ²»µÈÓÚ 0 µÄ
+/// @brief å¯¹ä¸Šè¿° EventType è¿›è¡Œå½’ç±»
+/// å¯ä»¥ä½¿ç”¨ item_category & category ä½è¿ç®—åˆ¤æ–­æŸ event çš„
+/// category æ˜¯å¦åŒ…æ‹¬æŸ categoryï¼Œå¦‚æœä¸ç­‰äº 0ï¼Œåˆ™åŒ…æ‹¬è¯¥ category
+/// ä¾‹å¦‚ï¼ŒKeyEvent çš„ category æ˜¯ EventCategoryKeyboard | EventCategoryInputï¼Œ
+/// è¿™æ ·ä½¿ç”¨ä½è¿ç®—è®¡ç®— event çš„ category å’Œ EventCategoryKeyboard æˆ–
+/// EventCategoryInput çš„ç»“æœéƒ½ä¼šæ˜¯ä¸ç­‰äº 0 çš„
 enum EventCategory {
   None = 0,
   EventCategoryApplication = BIT(0),
@@ -46,22 +46,22 @@ enum EventCategory {
   EventCategoryMouseButton = BIT(4)
 };
 
-// ## ºÅÊÇÁ¬½Ó·û
-// # ºÅÓÃÓÚ»ñÈ¡Æä×Ö·û´®±íÊ¾
-#define EVENT_CLASS_TYPE(type)                                                \
-  static EventType GetStaticType() { return EventType::##type; }              \
-  virtual EventType GetEventType() const override { return GetStaticType(); } \
-  virtual const char* GetName() const override { return #type; }
+// ## å·æ˜¯è¿æ¥ç¬¦
+// # å·ç”¨äºè·å–å…¶å­—ç¬¦ä¸²è¡¨ç¤º
+#define EVENT_CLASS_TYPE(type)                                                 \
+  static EventType GetStaticType() { return EventType::type; }                 \
+  virtual EventType GetEventType() const override { return GetStaticType(); }  \
+  virtual const char *GetName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) \
+#define EVENT_CLASS_CATEGORY(category)                                         \
   virtual int GetCategoryFlags() const override { return category; }
 
 class CAZEL_API Event {
- public:
-   bool Handled = false;
+public:
+  bool Handled = false;
 
   virtual EventType GetEventType() const = 0;
-  virtual const char* GetName() const = 0;
+  virtual const char *GetName() const = 0;
   virtual int GetCategoryFlags() const = 0;
   virtual std::string ToString() const { return GetName(); };
 
@@ -74,26 +74,24 @@ class EventDispatcher {
   /// @brief Event callback, it will return whether this
   /// event shall still be propagated.
   /// @tparam T Event Type
-  template <typename T>
-  using EventFn = std::function<bool(T&)>;
+  template <typename T> using EventFn = std::function<bool(T &)>;
 
- public:
-  EventDispatcher(Event& event) : m_Event(event) {}
+public:
+  EventDispatcher(Event &event) : m_Event(event) {}
 
-  template <typename T>
-  bool Dispatch(EventFn<T> func) {
+  template <typename T> bool Dispatch(EventFn<T> func) {
     if (m_Event.GetEventType() == T::GetStaticType()) {
-      m_Event.Handled = func(*dynamic_cast<T*>(&m_Event));
+      m_Event.Handled = func(*dynamic_cast<T *>(&m_Event));
       return true;
     }
     return false;
   }
 
- private:
-  Event& m_Event;
+private:
+  Event &m_Event;
 };
 
-inline std::ostream& operator<<(std::ostream& os, const Event& e) {
+inline std::ostream &operator<<(std::ostream &os, const Event &e) {
   return os << e.ToString();
 }
-}  // namespace Cazel
+} // namespace Cazel

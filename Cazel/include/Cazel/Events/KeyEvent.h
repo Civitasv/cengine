@@ -4,18 +4,18 @@
 
 namespace Cazel {
 class CAZEL_API KeyEvent : public Event {
- public:
+public:
   inline int GetKeyCode() const { return m_KeyCode; }
 
   EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
- protected:
+protected:
   KeyEvent(int keycode) : m_KeyCode(keycode) {}
   int m_KeyCode;
 };
 
 class CAZEL_API KeyPressedEvent : public KeyEvent {
- public:
+public:
   KeyPressedEvent(int keycode, int repeatCount)
       : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
@@ -30,12 +30,12 @@ class CAZEL_API KeyPressedEvent : public KeyEvent {
 
   EVENT_CLASS_TYPE(KeyPressed)
 
- private:
+private:
   int m_RepeatCount;
 };
 
 class CAZEL_API KeyReleasedEvent : public KeyEvent {
- public:
+public:
   KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
 
   std::string ToString() const override {
@@ -46,4 +46,4 @@ class CAZEL_API KeyReleasedEvent : public KeyEvent {
 
   EVENT_CLASS_TYPE(KeyReleased)
 };
-}  // namespace Cazel
+} // namespace Cazel

@@ -1,8 +1,5 @@
 add_executable(Sandbox SandboxApp.cpp)
 
-target_compile_definitions(Sandbox PRIVATE 
-	CZ_PLATFORM_WINDOWS)
-
 target_include_directories(Sandbox PUBLIC 
 	${CMAKE_SOURCE_DIR}/Cazel/include)
 

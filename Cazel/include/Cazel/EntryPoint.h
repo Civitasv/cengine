@@ -1,11 +1,9 @@
 #pragma once
 
-#ifdef CZ_PLATFORM_WINDOWS
-
 #include "Cazel/Application.h"
 #include "Cazel/Log.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   Cazel::Log::Init();
   CZ_CORE_WARN("TEST Initialized Log!");
   CZ_INFO("Initialized Log: {}!", 0);
@@ -17,5 +15,3 @@ int main(int argc, char** argv) {
 
   delete app;
 }
-
-#endif

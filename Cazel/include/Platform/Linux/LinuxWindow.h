@@ -4,10 +4,10 @@
 #include "GLFW/glfw3.h"
 
 namespace Cazel {
-class WindowsWindow : public Window {
+class LinuxWindow : public Window {
  public:
-  WindowsWindow(const WindowProps& props);
-  virtual ~WindowsWindow();
+  LinuxWindow(const WindowProps& props);
+  virtual ~LinuxWindow();
 
   void OnUpdate() override;
 

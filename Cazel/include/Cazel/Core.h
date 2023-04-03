@@ -1,31 +1,31 @@
 #pragma once
 
-#ifdef CZ_PLATFORM_WINDOWS
-#ifdef CZ_BUILD_DLL
-/// __declspec(dllexport) means exporting this in dll.
+#if defined(_MSC_VER)
+//  Microsoft
 #define CAZEL_API __declspec(dllexport)
+#elif defined(__GNUC__)
+//  GCC
+#define CAZEL_API __attribute__((visibility("default")))
 #else
-/// __declspec(dllimport) means importing this in dll.
-#define CAZEL_API __declspec(dllimport)
-#endif
-#else
-#error CAZEL ONLY SUPPORT WINDOWS!
+//  do nothing and hope for the best?
+#define CAZEL_API
+#pragma warning Unknown dynamic link import / export semantics.
 #endif
 
 #ifdef CZ_ENABLE_ASSERTS
-#define CZ_ASSERT(x, ...)                             \
-  {                                                   \
-    if (!(x)) {                                       \
-      CZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-      __debugbreak();                                 \
-    }                                                 \
+#define CZ_ASSERT(x, ...)                                                      \
+  {                                                                            \
+    if (!(x)) {                                                                \
+      CZ_ERROR("Assertion Failed: {0}", __VA_ARGS__);                          \
+      __debugbreak();                                                          \
+    }                                                                          \
   }
-#define CZ_CORE_ASSERT(x, ...)                             \
-  {                                                        \
-    if (!(x)) {                                            \
-      CZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-      __debugbreak();                                      \
-    }                                                      \
+#define CZ_CORE_ASSERT(x, ...)                                                 \
+  {                                                                            \
+    if (!(x)) {                                                                \
+      CZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);                     \
+      __debugbreak();                                                          \
+    }                                                                          \
   }
 #else
 #define CZ_ASSERT(x, ...)
