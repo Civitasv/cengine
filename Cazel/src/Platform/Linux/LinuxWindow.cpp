@@ -4,9 +4,7 @@
 #include "Cazel/Events/KeyEvent.h"
 #include "Cazel/Events/MouseEvent.h"
 #include "Cazel/Log.h"
-#include "GLFW/glfw3.h"
 #include "czpch.h"
-#include "glad/gl.h"
 
 namespace Cazel {
 static bool s_GLFWInitialized = false;

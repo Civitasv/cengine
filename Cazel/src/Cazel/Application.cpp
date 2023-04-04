@@ -2,16 +2,19 @@
 
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Log.h"
-#include "GLFW/glfw3.h"
 #include "czpch.h"
 
 namespace Cazel {
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+/// It should be Single Instance
+Application *Application::s_Instance = nullptr;
 
 Application::Application() {
+  CZ_CORE_ASSERT(!s_Instance, "Application already exists!");
+  s_Instance = this;
+
   m_Window = std::unique_ptr<Window>(Window::Create());
   // see https://en.cppreference.com/w/cpp/utility/functional/bind
-  m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+  m_Window->SetEventCallback(CZ_BIND_EVENT_FN(Application::OnEvent));
 }
 
 Application::~Application() {}
@@ -32,24 +35,37 @@ void Application::Run() {
 /// @param e event to be handled.
 void Application::OnEvent(Event &e) {
   EventDispatcher dispatcher(e);
-  dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+  // 检查是否是 WindowCloseEvent，如果是的话，e.handled will be true
+  dispatcher.Dispatch<WindowCloseEvent>(
+      CZ_BIND_EVENT_FN(Application::OnWindowClose));
 
+  // 否则，对每一个图层执行该事件
   for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
-    (*--it)->OnEvent(e);  // 处理事件的时候，是从最后一个到第一个
     if (e.Handled) {
       break;
     }
+    (*--it)->OnEvent(e);  // 处理事件的时候，是从最后一个到第一个
   }
 }
 
-void Application::PushLayer(Layer *layer) { m_LayerStack.PushLayer(layer); }
+void Application::PushLayer(Layer *layer) {
+  m_LayerStack.PushLayer(layer);
+  layer->OnAttach();
+}
 
 void Application::PushOverlay(Layer *overlay) {
   m_LayerStack.PushOverlay(overlay);
+  overlay->OnAttach();
 }
 
 bool Application::OnWindowClose(WindowCloseEvent &e) {
   m_Running = false;
   return true;
 }
+
+Application &Application::Get() {
+  return *s_Instance;
+}
+
+Window &Application::GetWindow() { return *m_Window.get(); }
 }  // namespace Cazel

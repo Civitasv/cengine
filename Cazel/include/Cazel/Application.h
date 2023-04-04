@@ -23,6 +23,9 @@ class CAZEL_API Application {
   void PushLayer(Layer* layer);
   void PushOverlay(Layer* overlay);
 
+  inline static Application& Get();
+  inline Window& GetWindow();
+
  private:
   bool OnWindowClose(WindowCloseEvent& e);
 
@@ -30,9 +33,11 @@ class CAZEL_API Application {
   bool m_Running = true;
 
   LayerStack m_LayerStack;
+
+ private:
+  static Application* s_Instance;
 };
 
 /// To be defined in CLIENT.
 Application* CreateApplication();
-
 }  // namespace Cazel

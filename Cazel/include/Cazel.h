@@ -11,6 +11,7 @@
 
 // -- Layer ---
 #include "Cazel/Layer.h"
+#include "Cazel/imgui/ImGuiLayer.h"
 // ----------
 
 // -- Log ---

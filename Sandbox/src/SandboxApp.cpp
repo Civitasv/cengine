@@ -8,15 +8,16 @@ class ExampleLayer : public Cazel::Layer {
 
   void OnUpdate() override { CZ_INFO("ExampleLayer::Update"); }
 
-  void OnEvent(Cazel::Event& event) override {
-    CZ_TRACE("{0}", event);
-  }
+  void OnEvent(Cazel::Event& event) override { CZ_TRACE("{0}", event); }
 };
 
 /// @brief Define Application.
 class Sandbox : public Cazel::Application {
  public:
-  Sandbox() { PushLayer(new ExampleLayer()); }
+  Sandbox() {
+    PushLayer(new ExampleLayer());
+    PushLayer(new Cazel::ImGuiLayer());
+  }
   ~Sandbox() {}
 };
 

@@ -15,17 +15,17 @@
 #endif
 
 #ifdef CZ_ENABLE_ASSERTS
-#define CZ_ASSERT(x, ...)                                                      \
-  {                                                                            \
-    if (!(x)) {                                                                \
-      CZ_ERROR("Assertion Failed: {0}", __VA_ARGS__);                          \
-    }                                                                          \
+#define CZ_ASSERT(x, ...)                             \
+  {                                                   \
+    if (!(x)) {                                       \
+      CZ_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
+    }                                                 \
   }
-#define CZ_CORE_ASSERT(x, ...)                                                 \
-  {                                                                            \
-    if (!(x)) {                                                                \
-      CZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);                     \
-    }                                                                          \
+#define CZ_CORE_ASSERT(x, ...)                             \
+  {                                                        \
+    if (!(x)) {                                            \
+      CZ_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
+    }                                                      \
   }
 #else
 #define CZ_ASSERT(x, ...)
@@ -33,3 +33,6 @@
 #endif
 
 #define BIT(x) (1 << x)
+
+/// @breif 类似于 [this](auto a) -> void { fn(a); };
+#define CZ_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)

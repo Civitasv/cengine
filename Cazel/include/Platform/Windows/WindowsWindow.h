@@ -2,34 +2,33 @@
 
 #include "Cazel/Window.h"
 
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
-
-#include "glad/gl.h"
-
 namespace Cazel {
 class WindowsWindow : public Window {
-public:
+ public:
   WindowsWindow(const WindowProps &props);
   virtual ~WindowsWindow();
 
-  void OnUpdate() override;
+  virtual void OnUpdate() override;
 
-  inline unsigned int GetWidth() const override { return m_Data.Width; }
-  inline unsigned int GetHeight() const override { return m_Data.Height; }
+  virtual inline unsigned int GetWidth() const override { return m_Data.Width; }
+  virtual inline unsigned int GetHeight() const override {
+    return m_Data.Height;
+  }
 
   // Window attributes
-  inline void SetEventCallback(const EventCallbackFn &callback) override {
+  virtual inline void SetEventCallback(
+      const EventCallbackFn &callback) override {
     m_Data.EventCallback = callback;
   }
-  void SetVSync(bool enabled) override;
-  bool IsVSync() const override;
+  virtual void SetVSync(bool enabled) override;
+  virtual bool IsVSync() const override;
+  virtual void *GetNativeWindow() const override { return m_Window; }
 
-private:
+ private:
   virtual void Init(const WindowProps &props);
   virtual void Shutdown();
 
-private:
+ private:
   GLFWwindow *m_Window;
 
   struct WindowData {
@@ -42,4 +41,4 @@ private:
 
   WindowData m_Data;
 };
-}; // namespace Cazel
+};  // namespace Cazel
