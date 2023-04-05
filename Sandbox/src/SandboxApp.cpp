@@ -1,23 +1,29 @@
 #include <iostream>
 
 #include "Cazel.h"
+#include "imgui.h"
 
 class ExampleLayer : public Cazel::Layer {
  public:
   ExampleLayer() : Layer("Example") {}
 
-  void OnUpdate() override { CZ_INFO("ExampleLayer::Update"); }
+  virtual void OnUpdate() override {
+    CZ_INFO("ExampleLayer::Update");
+  }
 
-  void OnEvent(Cazel::Event& event) override { CZ_TRACE("{0}", event); }
+  virtual void OnEvent(Cazel::Event& event) override { CZ_TRACE("{0}", event); }
+
+  virtual void OnImGuiRender() override {
+    ImGui::Begin("Test");
+    ImGui::Text("Hello World");
+    ImGui::End();
+  }
 };
 
 /// @brief Define Application.
 class Sandbox : public Cazel::Application {
  public:
-  Sandbox() {
-    PushLayer(new ExampleLayer());
-    PushLayer(new Cazel::ImGuiLayer());
-  }
+  Sandbox() { PushLayer(new ExampleLayer()); }
   ~Sandbox() {}
 };
 

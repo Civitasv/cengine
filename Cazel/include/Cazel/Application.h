@@ -4,6 +4,7 @@
 #include "Cazel/Events/Event.h"
 #include "Cazel/LayerStack.h"
 #include "Cazel/Window.h"
+#include "Cazel/imgui/ImGuiLayer.h"
 
 namespace Cazel {
 
@@ -30,6 +31,10 @@ class CAZEL_API Application {
   bool OnWindowClose(WindowCloseEvent& e);
 
   std::unique_ptr<Window> m_Window;
+
+  // For debug issues
+  ImGuiLayer* m_ImGuiLayer;
+
   bool m_Running = true;
 
   LayerStack m_LayerStack;

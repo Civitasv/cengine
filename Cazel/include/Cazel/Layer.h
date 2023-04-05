@@ -23,6 +23,9 @@ class CAZEL_API Layer {
   /// @param event 事件处理
   virtual void OnEvent(Event& event) {}
 
+  /// @brief 该图层要对 ImGui 图层做什么事情，比如在 ImGui 图层展示东西
+  virtual void OnImGuiRender(){};
+
   /// @brief 获取图层名，用于 debug
   /// @return 图层名称
   inline const std::string& GetName() const { return m_DebugName; }

@@ -16,6 +16,9 @@ Application::Application() {
   m_Window = std::unique_ptr<Window>(Window::Create());
   // see https://en.cppreference.com/w/cpp/utility/functional/bind
   m_Window->SetEventCallback(CZ_BIND_EVENT_FN(Application::OnEvent));
+
+  m_ImGuiLayer = new ImGuiLayer();
+  PushOverlay(m_ImGuiLayer);
 }
 
 Application::~Application() {}
@@ -28,6 +31,12 @@ void Application::Run() {
     for (Layer *layer : m_LayerStack) {
       layer->OnUpdate();  // 更新的时候，是从第一个到最后一个
     }
+
+    m_ImGuiLayer->Begin();
+    for (Layer *layer : m_LayerStack) {
+      layer->OnImGuiRender();  // 更新的时候，是从第一个到最后一个
+    }
+    m_ImGuiLayer->End();
 
     m_Window->OnUpdate();
   }
