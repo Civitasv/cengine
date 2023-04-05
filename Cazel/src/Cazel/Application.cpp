@@ -1,6 +1,7 @@
 ﻿#include "Cazel/Application.h"
 
 #include "Cazel/Events/ApplicationEvent.h"
+#include "Cazel/Input.h"
 #include "Cazel/Log.h"
 #include "czpch.h"
 
@@ -27,6 +28,7 @@ void Application::Run() {
     for (Layer *layer : m_LayerStack) {
       layer->OnUpdate();  // 更新的时候，是从第一个到最后一个
     }
+
     m_Window->OnUpdate();
   }
 }
@@ -63,9 +65,7 @@ bool Application::OnWindowClose(WindowCloseEvent &e) {
   return true;
 }
 
-Application &Application::Get() {
-  return *s_Instance;
-}
+Application &Application::Get() { return *s_Instance; }
 
 Window &Application::GetWindow() { return *m_Window.get(); }
 }  // namespace Cazel

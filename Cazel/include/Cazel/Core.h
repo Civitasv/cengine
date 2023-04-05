@@ -1,6 +1,10 @@
 #pragma once
 
+#define CZ_DEBUG
+
+#ifdef CZ_DEBUG
 #define CZ_ENABLE_ASSERTS
+#endif
 
 #if defined(_MSC_VER)
 //  Microsoft

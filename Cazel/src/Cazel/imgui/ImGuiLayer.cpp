@@ -138,6 +138,7 @@ bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& e) {
 bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e) {
   ImGuiIO& io = ImGui::GetIO();
   io.KeysDown[e.GetKeyCode()] = true;
+
   io.KeyCtrl =
       io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
   io.KeyShift =
@@ -146,21 +147,21 @@ bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e) {
   io.KeySuper =
       io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
 
-  return false;
+  return false;  // we want other layers handle this
 }
 
 bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e) {
   ImGuiIO& io = ImGui::GetIO();
   io.KeysDown[e.GetKeyCode()] = false;
 
-  return false;
+  return false;  // we want other layers handle this
 }
 
 bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& e) {
   ImGuiIO& io = ImGui::GetIO();
   io.AddInputCharacter(e.GetKeyCode());
 
-  return false;
+  return false;  // we want other layers handle this
 }
 
 bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& e) {
@@ -169,6 +170,6 @@ bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& e) {
   io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 
   // glViewport(0, 0, e.GetWidth(), e.GetHeight());
-  return false;
+  return false;  // we want other layers handle this
 }
 }  // namespace Cazel

@@ -1,1 +1,1 @@
-target_sources(Cazel PUBLIC WindowsWindow.cpp)
+target_sources(Cazel PUBLIC WindowsWindow.cpp WindowsInput.cpp)
