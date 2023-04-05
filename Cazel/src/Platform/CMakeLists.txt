@@ -9,3 +9,5 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
 else()
     message(FATAL_ERROR "Unsupported operating system")
 endif()
+
+add_subdirectory(OpenGL)

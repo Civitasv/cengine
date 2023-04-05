@@ -24,8 +24,8 @@ class CAZEL_API Application {
   void PushLayer(Layer* layer);
   void PushOverlay(Layer* overlay);
 
-  inline static Application& Get();
-  inline Window& GetWindow();
+  static Application& Get();
+  Window& GetWindow();
 
  private:
   bool OnWindowClose(WindowCloseEvent& e);

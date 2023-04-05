@@ -4,6 +4,7 @@
 #include "Cazel/Events/KeyEvent.h"
 #include "Cazel/Events/MouseEvent.h"
 #include "Cazel/Log.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 #include "czpch.h"
 
 namespace Cazel {
@@ -27,7 +28,7 @@ void WindowsWindow::OnUpdate() {
   // of the specified window. If the swap interval
   // is greater than zero, the GPU driver waits the
   // specified number of screen updates before swapping the buffers.
-  glfwSwapBuffers(m_Window);
+  m_Context->SwapBuffers();
 }
 
 void WindowsWindow::Init(const WindowProps &props) {
@@ -49,13 +50,8 @@ void WindowsWindow::Init(const WindowProps &props) {
   m_Window = glfwCreateWindow(props.Width, props.Height, m_Data.Title.c_str(),
                               nullptr, nullptr);
 
-  glfwMakeContextCurrent(m_Window);
-
-  // Initialize Glad
-  int status = gladLoadGL((GLADloadfunc)glfwGetProcAddress);
-  CZ_CORE_ASSERT(status, "Failed to initialize OpenGL context");
-  CZ_CORE_INFO("Loaded OpenGL, VERSION: {0}.{1}", GLAD_VERSION_MAJOR(status),
-               GLAD_VERSION_MINOR(status));
+  m_Context = new OpenGLContext(m_Window);
+  m_Context->Init();
 
   glfwSetWindowUserPointer(m_Window, &m_Data);
 

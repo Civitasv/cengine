@@ -1,6 +1,11 @@
 #pragma once
 
+#include "Cazel/Renderer/GraphicsContext.h"
 #include "Cazel/Window.h"
+
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+#include "glad/gl.h"
 
 namespace Cazel {
 class WindowsWindow : public Window {
@@ -30,6 +35,7 @@ class WindowsWindow : public Window {
 
  private:
   GLFWwindow *m_Window;
+  GraphicsContext *m_Context;  ///< render context
 
   struct WindowData {
     std::string Title;

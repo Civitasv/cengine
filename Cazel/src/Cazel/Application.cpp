@@ -5,6 +5,10 @@
 #include "Cazel/Log.h"
 #include "czpch.h"
 
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+#include "glad/gl.h"
+
 namespace Cazel {
 /// It should be Single Instance
 Application *Application::s_Instance = nullptr;
@@ -59,9 +63,7 @@ void Application::OnEvent(Event &e) {
   }
 }
 
-void Application::PushLayer(Layer *layer) {
-  m_LayerStack.PushLayer(layer);
-}
+void Application::PushLayer(Layer *layer) { m_LayerStack.PushLayer(layer); }
 
 void Application::PushOverlay(Layer *overlay) {
   m_LayerStack.PushOverlay(overlay);
@@ -72,7 +74,7 @@ bool Application::OnWindowClose(WindowCloseEvent &e) {
   return true;
 }
 
-Application &Application::Get() { return *s_Instance; }
+inline Application &Application::Get() { return *s_Instance; }
 
-Window &Application::GetWindow() { return *m_Window.get(); }
+inline Window &Application::GetWindow() { return *m_Window; }
 }  // namespace Cazel

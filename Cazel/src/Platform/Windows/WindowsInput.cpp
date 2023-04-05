@@ -3,6 +3,10 @@
 #include "Cazel/Application.h"
 #include "czpch.h"
 
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+#include "glad/gl.h"
+
 namespace Cazel {
 Input* Input::s_Instance = new WindowsInput();
 

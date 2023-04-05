@@ -4,10 +4,9 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "Cazel/Log.h"
-
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
-
-#include "glad/gl.h"
