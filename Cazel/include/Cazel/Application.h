@@ -3,6 +3,8 @@
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Events/Event.h"
 #include "Cazel/LayerStack.h"
+#include "Cazel/Renderer/Renderer.h"
+#include "Cazel/Renderer/Texture.h"
 #include "Cazel/Window.h"
 #include "Cazel/imgui/ImGuiLayer.h"
 

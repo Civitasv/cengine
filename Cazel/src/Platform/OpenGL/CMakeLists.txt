@@ -1,1 +1,3 @@
-target_sources(Cazel PUBLIC OpenGLContext.cpp)
+target_sources(Cazel PUBLIC 
+  OpenGLContext.cpp 
+)

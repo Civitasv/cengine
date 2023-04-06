@@ -16,6 +16,9 @@ void OpenGLContext::Init() {
   CZ_CORE_ASSERT(status, "Failed to initialize OpenGL context");
   CZ_CORE_INFO("Loaded OpenGL, VERSION: {0}.{1}", GLAD_VERSION_MAJOR(status),
                GLAD_VERSION_MINOR(status));
+
+  CZ_CORE_INFO("OpenGL Renderer: {0}-{1}-{2}", glGetString(GL_VENDOR),
+               glGetString(GL_RENDERER), glGetString(GL_VERSION));
 }
 
 void OpenGLContext::SwapBuffers() { glfwSwapBuffers(m_WindowHandle); }

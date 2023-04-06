@@ -8,6 +8,7 @@
 #include "glad/gl.h"
 
 namespace Cazel {
+/// @brief This is platform specific.
 class OpenGLContext : public GraphicsContext {
  public:
   OpenGLContext(GLFWwindow* windowHandle);

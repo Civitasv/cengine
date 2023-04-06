@@ -35,6 +35,7 @@ void WindowsWindow::Init(const WindowProps &props) {
   m_Data.Title = props.Title;
   m_Data.Width = props.Width;
   m_Data.Height = props.Height;
+  m_Data.camera = new Camera(glm::vec3(1.0f, 0.0f, 3.0f));
 
   CZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width,
                props.Height);
@@ -58,6 +59,11 @@ void WindowsWindow::Init(const WindowProps &props) {
   SetVSync(true);
 
   // Set GLFW callbacks
+  glfwSetFramebufferSizeCallback(m_Window,
+                                 [](GLFWwindow *window, int width, int height) {
+                                   glViewport(0, 0, width, height);
+                                 });
+
   glfwSetWindowSizeCallback(
       m_Window, [](GLFWwindow *window, int width, int height) {
         WindowData &data =
@@ -132,15 +138,34 @@ void WindowsWindow::Init(const WindowProps &props) {
 
         MouseScrolledEvent event((float)xoffset, (float)yoffset);
         data.EventCallback(event);
+
+        data.camera->ProcessMouseScroll((float)yoffset);
       });
 
-  glfwSetCursorPosCallback(
-      m_Window, [](GLFWwindow *window, double xpos, double ypos) {
-        WindowData &data =
-            *static_cast<WindowData *>(glfwGetWindowUserPointer(window));
-        MouseMovedEvent event((float)xpos, (float)ypos);
-        data.EventCallback(event);
-      });
+  glfwSetCursorPosCallback(m_Window, [](GLFWwindow *window, double xpos,
+                                        double ypos) {
+    WindowData &data =
+        *static_cast<WindowData *>(glfwGetWindowUserPointer(window));
+    MouseMovedEvent event((float)xpos, (float)ypos);
+    data.EventCallback(event);
+
+    static bool first_mouse = true;
+    static float last_x, last_y;
+    if (first_mouse) {
+      last_x = xpos;
+      last_y = ypos;
+      first_mouse = false;
+    }
+
+    float xoffset = xpos - last_x;
+    float yoffset =
+        last_y - ypos;  // reversed since y-coordinates go from bottom to top
+
+    last_x = xpos;
+    last_y = ypos;
+
+    data.camera->ProcessMouseMovement(xoffset, yoffset);
+  });
 }
 
 void WindowsWindow::Shutdown() { glfwDestroyWindow(m_Window); }

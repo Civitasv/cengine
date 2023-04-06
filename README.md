@@ -2,6 +2,10 @@
 
 This is cengine, not write using C, but use C++.
 
+## Showcase
+
+![Showcase](images/showcase.png)
+
 ## 执行流程
 
 1. Cazel 是游戏引擎，其中定义了 `main` 方法
