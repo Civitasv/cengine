@@ -98,8 +98,8 @@ void Application::Run() {
     // change the light's position values over time (can be done anywhere in the
     // render loop actually, but try to do it at least before using the light
     // source positions)
-     lightPos.x =sin(glfwGetTime());
-     lightPos.y =  cos(glfwGetTime());
+    lightPos.x = sin(glfwGetTime());
+    lightPos.y = cos(glfwGetTime());
 
     // 4 * 3，正射投影，left, right, bottom, top 表示 x 和 y 的边界，zNear 和
     // zFar
@@ -117,18 +117,35 @@ void Application::Run() {
     lightingShader.SetUniformMat4f("projection", projection);
     lightingShader.SetUniformMat4f("view", view);
     lightingShader.SetUniformMat4f("model", model);
-    lightingShader.SetUniform3f("objectColor", 1.0f, 0.5f, 0.31f);
-    lightingShader.SetUniform3f("lightColor", 0.0f, 1.0f, 0.0f);
-    lightingShader.SetUniformVec3f("lightPos", lightPos);
+
+    lightingShader.SetUniformVec3f("light.position", lightPos);
     lightingShader.SetUniformVec3f("viewPos", m_Window->GetCamera().position);
 
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, lightPos);
-    model = glm::scale(model, glm::vec3(0.2f));  // a smaller cube
+    // light properties
+    glm::vec3 lightColor;
+    lightColor.x = sin(glfwGetTime() * 2.0f);
+    lightColor.y = sin(glfwGetTime() * 0.7f);
+    lightColor.z = sin(glfwGetTime() * 1.3f);
+    glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+    glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+    lightingShader.SetUniformVec3f("light.ambient", ambientColor);
+    lightingShader.SetUniformVec3f("light.diffuse", diffuseColor);
+    lightingShader.SetUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
 
+    // material properties
+    lightingShader.SetUniform3f("material.ambient", 1.0f, 0.5f, 0.31f);
+    lightingShader.SetUniform3f("material.diffuse", 1.0f, 0.5f, 0.31f);
+    lightingShader.SetUniform3f("material.specular", 0.5f, 0.5f, 0.5f);
+    lightingShader.SetUniform1f("material.shininess", 32.0f);
+
+    // light cube object
     lightCubeShader.Bind();
     lightCubeShader.SetUniformMat4f("projection", projection);
     lightCubeShader.SetUniformMat4f("view", view);
+    lightCubeShader.SetUniformVec3f("LightColor", lightColor);
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, lightPos);
+    model = glm::scale(model, glm::vec3(0.2f));  // a smaller cube
     lightCubeShader.SetUniformMat4f("model", model);
 
     renderer.Draw(cube_vao, lightingShader, ib.GetCount());
