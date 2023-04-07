@@ -7,17 +7,11 @@ class ExampleLayer : public Cazel::Layer {
  public:
   ExampleLayer() : Layer("Example") {}
 
-  virtual void OnUpdate() override {
-    CZ_INFO("ExampleLayer::Update");
-  }
+  virtual void OnUpdate() override {}
 
   virtual void OnEvent(Cazel::Event& event) override { CZ_TRACE("{0}", event); }
 
-  virtual void OnImGuiRender() override {
-    ImGui::Begin("Test");
-    ImGui::Text("Hello World");
-    ImGui::End();
-  }
+  virtual void OnImGuiRender() override {}
 };
 
 /// @brief Define Application.
