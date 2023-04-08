@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Cazel/Application.h"
-#include "Cazel/Log.h"
+#include "Cazel/Core/Application.h"
+#include "Cazel/Core/Log.h"
 
 int main(int argc, char **argv) {
   Cazel::Log::Init();

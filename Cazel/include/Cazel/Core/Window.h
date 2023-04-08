@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Cazel/Core.h"
+#include "Cazel/Core/Core.h"
 #include "Cazel/Events/Event.h"
 #include "Cazel/Renderer/Camera.h"
 #include "czpch.h"
@@ -30,7 +30,6 @@ class CAZEL_API Window {
   // 获取底层实现的不同平台的具体的 Window
   virtual void* GetNativeWindow() const = 0;
 
-  virtual Camera& GetCamera() const = 0;
   // Window attr
   virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
   virtual void SetVSync(bool enabled) = 0;

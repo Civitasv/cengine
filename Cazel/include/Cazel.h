@@ -2,23 +2,23 @@
 
 // Used by Cazel applications
 
-#include "Cazel/Application.h"
-#include "Cazel/Core.h"
+#include "Cazel/Core/Application.h"
+#include "Cazel/Core/Core.h"
 
-#include "Cazel/Input.h"
-#include "Cazel/KeyCodes.h"
-#include "Cazel/MouseButtonCodes.h"
+#include "Cazel/Core/Input.h"
+#include "Cazel/Core/KeyCodes.h"
+#include "Cazel/Core/MouseCodes.h"
 
 
 // -- Entry Point ---
-#include "Cazel/EntryPoint.h"
+#include "Cazel/Core/EntryPoint.h"
 // ------------------
 
 // -- Layer ---
-#include "Cazel/Layer.h"
+#include "Cazel/Core/Layer.h"
 #include "Cazel/imgui/ImGuiLayer.h"
 // ----------
 
 // -- Log ---
-#include "Cazel/Log.h"
+#include "Cazel/Core/Log.h"
 // ----------

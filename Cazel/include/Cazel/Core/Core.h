@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #define CZ_DEBUG
 
 #ifdef CZ_DEBUG
@@ -43,3 +45,35 @@
 /// @breif 类似于 [this](auto a) -> void { fn(a); };
 /// for std::bind, see https://en.cppreference.com/w/cpp/utility/functional/bind
 #define CZ_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace Cazel {
+template <typename T>
+using Scope = std::unique_ptr<T>;
+
+template <typename T, typename... Args>
+constexpr Scope<T> CreateScope(Args&&... args) {
+  return std::make_unique<T>(std::forward<Args>(args)...);
+}
+
+template <typename T>
+using Ref = std::shared_ptr<T>;
+
+template <typename T, typename... Args>
+constexpr Ref<T> CreateRef(Args&&... args) {
+  return std::make_shared<T>(std::forward<Args>(args)...);
+}
+
+class Timestep {
+ public:
+  Timestep(float time = 0.0f) : m_Time(time) {}
+
+  operator float() const { return m_Time; }
+
+  float GetSeconds() const { return m_Time; }
+  float GetMilliseconds() const { return m_Time * 1000.0f; }
+
+ private:
+  float m_Time;
+};
+
+}  // namespace Cazel

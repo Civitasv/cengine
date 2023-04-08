@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Cazel/Renderer/Camera.h"
 #include "Cazel/Renderer/GraphicsContext.h"
-#include "Cazel/Window.h"
+#include "Cazel/Core/Window.h"
 
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
@@ -30,8 +29,6 @@ class WindowsWindow : public Window {
   virtual bool IsVSync() const override;
   virtual void *GetNativeWindow() const override { return m_Window; }
 
-  virtual Camera &GetCamera() const override { return *m_Data.camera; }
-
  private:
   virtual void Init(const WindowProps &props);
   virtual void Shutdown();
@@ -45,7 +42,6 @@ class WindowsWindow : public Window {
     unsigned int Width, Height;
     bool VSync;
     float DeltaTime;
-    Camera *camera;
     EventCallbackFn EventCallback;
   };
 

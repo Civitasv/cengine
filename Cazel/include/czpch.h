@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <algorithm>
 #include <fstream>
 
-#include "Cazel/Log.h"
+#include "Cazel/Core/Log.h"

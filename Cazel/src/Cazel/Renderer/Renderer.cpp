@@ -1,19 +1,35 @@
 #include "Cazel/Renderer/Renderer.h"
 
+#include "Cazel/Renderer/RenderCommand.h"
 #include "czpch.h"
 
 namespace Cazel {
-void Renderer::Clear() const {
-  GLCall(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
-  GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+Scope<Renderer::SceneData> Renderer::s_SceneData =
+    CreateScope<Renderer::SceneData>();
+
+void Renderer::Init() { RenderCommand::Init(); }
+
+void Renderer::Shutdown() {}
+
+void Renderer::OnWindowResize(uint32_t width, uint32_t height) {
+  RenderCommand::SetViewport(0, 0, width, height);
 }
 
-void Renderer::Draw(const VertexArray& va, const Shader& shader,
-                    int count) const {
-  shader.Bind();
-  // I can just bind VAO, it will bind VBO and vertex layout and IBO for us.
-  va.Bind();
-
-  GLCall(glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr));
+void Renderer::BeginScene(OrthographicCamera& camera) {
+  s_SceneData->ViewProjectMatrix = camera.GetViewProjectionMatrix();
 }
+
+void Renderer::EndScene() {}
+
+void Renderer::Submit(const Ref<Shader>& shader,
+                      const Ref<VertexArray>& vertexArray,
+                      const glm::mat4& transform) {
+  shader->Bind();
+  shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectMatrix);
+  shader->SetMat4("u_Transform", transform);
+
+  vertexArray->Bind();
+  RenderCommand::DrawIndexed(vertexArray);
+}
+
 }  // namespace Cazel

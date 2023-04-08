@@ -1,41 +1,30 @@
 #pragma once
 
-#include "Log.h"
-#include "czpch.h"
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+#include <string>
+#include <unordered_map>
 
-struct ShaderProgramSource {
-  std::string VertexSource;    ///< operate on each vertex
-  std::string FragmentSource;  /// < operare on each pixel
-};
+#include "Cazel/Core/Core.h"
 
+namespace Cazel {
 class Shader {
- private:
-  std::string m_Filepath;
-  unsigned int m_RendererID;
-  // caching for uniforms
-  std::unordered_map<std::string, int> m_UniformLocationCache;
-
  public:
-  Shader(const std::string& filepath);
-  ~Shader();
+  virtual ~Shader() = default;
 
-  void Bind() const;
-  void Unbind() const;
+  virtual void Bind() const = 0;
+  virtual void Unbind() const = 0;
 
-  // Set uniforms
-  void SetUniform3f(const std::string& name, float v0, float v1, float v2);
-  void SetUniform4f(const std::string& name, float v0, float v1, float v2,
-                    float v3);
-  void SetUniform1i(const std::string& name, int value);
-  void SetUniform1f(const std::string& name, float value);
-  void SetUniformVec3f(const std::string& name, const glm::vec3& vec);
-  void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
+  virtual void SetInt(const std::string& name, int value) = 0;
+  virtual void SetIntArray(const std::string& name, int* values,
+                           uint32_t count) = 0;
+  virtual void SetFloat(const std::string& name, float value) = 0;
+  virtual void SetFloat2(const std::string& name, const glm::vec2& value) = 0;
+  virtual void SetFloat3(const std::string& name, const glm::vec3& value) = 0;
+  virtual void SetFloat4(const std::string& name, const glm::vec4& value) = 0;
+  virtual void SetMat4(const std::string& name, const glm::mat4& value) = 0;
 
- private:
-  int GetUniformLocation(const std::string& name);
-  unsigned int CompileShader(unsigned int type, const std::string& source);
-  unsigned int CreateShader(const std::string& vertexShader,
-                            const std::string& fragmentShader);
-  ShaderProgramSource ParseShader(const std::string& filepath);
+  static Ref<Shader> Create(const std::string& filepath);
+  static Ref<Shader> Create(const std::string& vertexSrc,
+                            const std::string& fragmentSrc);
 };
+}  // namespace Cazel

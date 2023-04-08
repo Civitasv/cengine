@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Cazel/Core.h"
-#include "Cazel/Layer.h"
+#include "Cazel/Core/Core.h"
+#include "Cazel/Core/Layer.h"
 
 namespace Cazel {
 /// @brief 图层组

@@ -1,24 +1,26 @@
 #pragma once
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
 
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
-#include "Log.h"
-#include "glad/gl.h"
+#include <memory>
 
+#include "Buffer.h"
+
+namespace Cazel {
 class VertexArray {
  private:
   unsigned int m_RendererID;
 
  public:
-  VertexArray();
-  ~VertexArray();
+  virtual ~VertexArray() = default;
 
-  void AddBuffer(const VertexBuffer& vb, const IndexBuffer& ib,
-                 const VertexBufferLayout& layout);
+  virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) = 0;
+  virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) = 0;
 
-  void Bind() const;
-  void Unbind() const;
+  virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const = 0;
+  virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
+
+  static Ref<VertexArray> Create();
+
+  virtual void Bind() const = 0;
+  virtual void Unbind() const = 0;
 };
+}  // namespace Cazel

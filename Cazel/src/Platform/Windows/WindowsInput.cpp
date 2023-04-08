@@ -1,6 +1,6 @@
 #include "Platform/Windows/WindowsInput.h"
 
-#include "Cazel/Application.h"
+#include "Cazel/Core/Application.h"
 #include "czpch.h"
 
 #define GLFW_INCLUDE_NONE

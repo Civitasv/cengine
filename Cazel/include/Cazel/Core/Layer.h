@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Cazel/Core.h"
+#include "Cazel/Core/Core.h"
 #include "Cazel/Events/Event.h"
 
 namespace Cazel {

@@ -1,26 +1,32 @@
 #pragma once
 
-#include "Log.h"
-#include "czpch.h"
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
-#include "glad/gl.h"
+#include <string>
 
+#include "Cazel/Core/Core.h"
+
+namespace Cazel {
 class Texture {
- private:
-  unsigned int m_RendererID;
-  std::string m_FilePath;
-
-  unsigned char* m_LocalBuffer;
-  int m_Width, m_Height, m_BPP;  // bytes per pixel, rgba -> 4byte
-
  public:
-  Texture(const std::string& path);
-  ~Texture();
+  virtual ~Texture() = default;
 
-  void Bind(unsigned int slot = 0) const;
-  void Unbind();
+  virtual uint32_t GetWidth() const = 0;
+  virtual uint32_t GetHeight() const = 0;
+  virtual uint32_t GetRendererID() const = 0;
 
-  inline int GetWidth() const { return m_Width; }
-  inline int GetHeight() const { return m_Height; }
+  virtual const std::string& GetPath() const = 0;
+
+  virtual void SetData(void* data, uint32_t size) = 0;
+
+  virtual void Bind(uint32_t slot = 0) const = 0;
+
+  virtual bool IsLoaded() const = 0;
+
+  virtual bool operator==(const Texture& other) const = 0;
 };
+
+class Texture2D : public Texture {
+ public:
+  static Ref<Texture2D> Create(uint32_t width, uint32_t height);
+  static Ref<Texture2D> Create(const std::string& path);
+};
+}  // namespace Cazel

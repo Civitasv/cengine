@@ -1,11 +1,11 @@
 #pragma once
-#include "Cazel/Core.h"
+#include "Cazel/Core/Core.h"
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Events/Event.h"
-#include "Cazel/LayerStack.h"
+#include "Cazel/Core/LayerStack.h"
 #include "Cazel/Renderer/Renderer.h"
 #include "Cazel/Renderer/Texture.h"
-#include "Cazel/Window.h"
+#include "Cazel/Core/Window.h"
 #include "Cazel/imgui/ImGuiLayer.h"
 
 namespace Cazel {

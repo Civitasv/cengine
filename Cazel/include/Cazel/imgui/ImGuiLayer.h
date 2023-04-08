@@ -3,7 +3,7 @@
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Events/KeyEvent.h"
 #include "Cazel/Events/MouseEvent.h"
-#include "Cazel/Layer.h"
+#include "Cazel/Core/Layer.h"
 
 namespace Cazel {
 /// @brief 主要用于 Debug

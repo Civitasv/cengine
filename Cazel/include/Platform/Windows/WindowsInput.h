@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Cazel/Input.h"
+#include "Cazel/Core/Input.h"
 
 namespace Cazel {
 class WindowsInput : public Input {
