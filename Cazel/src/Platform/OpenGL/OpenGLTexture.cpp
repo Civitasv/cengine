@@ -10,6 +10,7 @@ OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
   m_InternalFormat = GL_RGBA8;
   m_DataFormat = GL_RGBA;
 
+  // glCreate* kinda like glGen* plus glBind*
   glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
   glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
 

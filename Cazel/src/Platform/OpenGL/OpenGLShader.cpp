@@ -77,7 +77,8 @@ std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(
 void OpenGLShader::Compile(
     const std::unordered_map<GLenum, std::string>& shaderSources) {
   GLuint program = glCreateProgram();
-  std::vector<GLenum> glShaderIDs(shaderSources.size());
+  std::vector<GLenum> glShaderIDs;
+
   for (auto& kv : shaderSources) {
     GLenum type = kv.first;
     const std::string& source = kv.second;
@@ -85,7 +86,7 @@ void OpenGLShader::Compile(
     GLuint shader = glCreateShader(type);
 
     const GLchar* sourceCStr = source.c_str();
-    glShaderSource(shader, 1, &sourceCStr, 0);
+    glShaderSource(shader, 1, &sourceCStr, nullptr);
 
     glCompileShader(shader);
 
@@ -113,6 +114,7 @@ void OpenGLShader::Compile(
 
   // Link our program
   glLinkProgram(program);
+  glValidateProgram(program);
 
   // Note the different functions here: glGetProgram* instead of glGetShader*.
   GLint isLinked = 0;
