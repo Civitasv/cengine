@@ -4,6 +4,7 @@
 
 #include "Camera.h"
 #include "Cazel/Core/Core.h"
+#include "Cazel/Core/Timestep.h"
 #include "Cazel/Events/Event.h"
 #include "Cazel/Events/MouseEvent.h"
 

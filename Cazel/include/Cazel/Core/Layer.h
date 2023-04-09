@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Cazel/Core/Core.h"
+#include "Cazel/Core/Timestep.h"
 #include "Cazel/Events/Event.h"
 
 namespace Cazel {
@@ -17,7 +18,7 @@ class CAZEL_API Layer {
   virtual void OnDetach() {}
 
   /// @brief 图层更新事件
-  virtual void OnUpdate() {}
+  virtual void OnUpdate(Timestep ts) {}
 
   /// @brief 图层相关事件
   /// @param event 事件处理

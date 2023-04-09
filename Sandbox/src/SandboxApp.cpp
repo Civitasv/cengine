@@ -14,7 +14,7 @@ class ExampleLayer : public Layer {
   Ref<Shader> shader;
 
   glm::vec3 camera_position;
-  float camera_speed = 0.01f;
+  float camera_speed = 1.0f;  // 1m/s
 
  public:
   ExampleLayer() : Layer("Example"), camera_position(0.0f) {
@@ -38,19 +38,20 @@ class ExampleLayer : public Layer {
     camera = Camera::Create(-1.0f, 1.0f, -1.0f, 1.0f);
   }
 
-  virtual void OnUpdate() override {
-    // 这个会在每一帧执行，所以很丝滑
+  virtual void OnUpdate(Timestep ts) override {
+    // 这个会在每一帧执行，所以很丝滑，需要使用 deltaTime 机制
+    // 从而保证，每秒移动的距离是一致的
     RenderCommand::Clear();
     RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
     if (Input::IsKeyPressed(CZ_KEY_W)) {
-      camera_position.y -= camera_speed;
+      camera_position.y -= camera_speed * ts;
     } else if (Input::IsKeyPressed(CZ_KEY_A)) {
-      camera_position.x += camera_speed;
+      camera_position.x += camera_speed * ts;
     } else if (Input::IsKeyPressed(CZ_KEY_S)) {
-      camera_position.y += camera_speed;
+      camera_position.y += camera_speed * ts;
     } else if (Input::IsKeyPressed(CZ_KEY_D)) {
-      camera_position.x -= camera_speed;
+      camera_position.x -= camera_speed * ts;
     }
     camera->SetPosition(camera_position);
 

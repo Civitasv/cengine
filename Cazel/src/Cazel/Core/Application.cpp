@@ -3,13 +3,8 @@
 #include "Cazel/Core/Input.h"
 #include "Cazel/Core/Log.h"
 #include "Cazel/Events/ApplicationEvent.h"
-#include "Cazel/Renderer/Camera.h"
-#include "Cazel/Renderer/RenderCommand.h"
-#include "Cazel/Renderer/Renderer.h"
 #include "GLFW/glfw3.h"
 #include "czpch.h"
-#include "glm/glm.hpp"
-#include "glm/gtx/transform.hpp"
 
 namespace Cazel {
 /// It should be Single Instance
@@ -33,8 +28,12 @@ Application::~Application() {}
 void Application::Run() {
   Renderer::Init();
   while (m_Running) {
+    float time = glfwGetTime();
+    Timestep timestep = time - m_LastFrameTime;  // delta time, 指一帧的时间
+    m_LastFrameTime = time;
+
     for (Layer *layer : m_LayerStack) {
-      layer->OnUpdate();  // 更新的时候，是从第一个到最后一个
+      layer->OnUpdate(timestep);  // 更新的时候，是从第一个到最后一个
     }
 
     m_ImGuiLayer->Begin();

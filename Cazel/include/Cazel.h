@@ -2,11 +2,14 @@
 
 // Used by Cazel applications
 
+// -- Core ---
 #include "Cazel/Core/Application.h"
 #include "Cazel/Core/Core.h"
 #include "Cazel/Core/Input.h"
 #include "Cazel/Core/KeyCodes.h"
 #include "Cazel/Core/MouseCodes.h"
+#include "Cazel/Core/Timestep.h"
+// ------------------
 
 // -- Entry Point ---
 #include "Cazel/Core/EntryPoint.h"

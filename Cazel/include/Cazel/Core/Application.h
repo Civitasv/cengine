@@ -1,11 +1,12 @@
 #pragma once
 #include "Cazel/Core/Core.h"
+#include "Cazel/Core/LayerStack.h"
+#include "Cazel/Core/Timestep.h"
+#include "Cazel/Core/Window.h"
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Events/Event.h"
-#include "Cazel/Core/LayerStack.h"
 #include "Cazel/Renderer/Renderer.h"
 #include "Cazel/Renderer/Texture.h"
-#include "Cazel/Core/Window.h"
 #include "Cazel/imgui/ImGuiLayer.h"
 
 namespace Cazel {
@@ -31,15 +32,12 @@ class CAZEL_API Application {
 
  private:
   bool OnWindowClose(WindowCloseEvent& e);
-
   std::unique_ptr<Window> m_Window;
-
   // For debug issues
   ImGuiLayer* m_ImGuiLayer;
-
   bool m_Running = true;
-
   LayerStack m_LayerStack;
+  float m_LastFrameTime = 0.0f;
 
  private:
   static Application* s_Instance;
