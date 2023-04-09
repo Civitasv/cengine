@@ -23,6 +23,11 @@ class Renderer {
   static void BeginScene(Camera& camera);
   static void EndScene();
 
+  /// @brief Submit to RenderCommand queue.
+  /// @param shader Shaders.
+  /// @param vertexArray VAO.
+  /// @param transform Model Matrix, used to transform
+  /// from Local Space to World Space.
   static void Submit(const Ref<Shader>& shader,
                      const Ref<VertexArray>& vertexArray,
                      const glm::mat4& transform = glm::mat4(1.0f));

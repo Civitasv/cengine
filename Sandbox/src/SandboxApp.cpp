@@ -1,3 +1,5 @@
+#include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include <iostream>
 
 #include "Cazel.h"
@@ -21,13 +23,15 @@ class ExampleLayer : public Layer {
     float vertices[] = {
         -0.5f, -0.5f,  // 1
         0.5f,  -0.5f,  // 2
-        0.0f,  0.5f    // 3
+        0.5f,  0.5f,   // 3
+        -0.5f, 0.5f    // 4
     };
-    uint32_t indices[] = {0, 1, 2};
+
+    uint32_t indices[] = {0, 1, 3, 1, 2, 3};
 
     BufferLayout layout = {{ShaderDataType::Float2, "Position"}};
     vbo = VertexBuffer::Create(vertices, sizeof(vertices));
-    ibo = IndexBuffer::Create(indices, 3);
+    ibo = IndexBuffer::Create(indices, 6);
     vbo->SetLayout(layout);
 
     vao = VertexArray::Create();
@@ -55,8 +59,17 @@ class ExampleLayer : public Layer {
     }
     camera->SetPosition(camera_position);
 
+    // Translate, Rotate, Scale
     Renderer::BeginScene(*camera);
-    Renderer::Submit(shader, vao);
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        glm::mat4 transform =
+            glm::translate(glm::mat4(1.0f),
+                           glm::vec3(i * 0.11f, j * 0.11f, 0.0f)) *
+            glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+        Renderer::Submit(shader, vao, transform);
+      }
+    }
     Renderer::EndScene();
   }
 
