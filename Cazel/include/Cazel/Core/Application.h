@@ -9,8 +9,9 @@
 #include "Cazel/Renderer/Texture.h"
 #include "Cazel/imgui/ImGuiLayer.h"
 
-namespace Cazel {
+int main(int argc, char** argv);
 
+namespace Cazel {
 /// we want our user to extend this class
 /// then use its `Run method` to run app.
 class CAZEL_API Application {
@@ -19,6 +20,7 @@ class CAZEL_API Application {
   virtual ~Application();
 
   void Run();
+  void ShutDown();
 
   /// @brief All events will be handled by this function.
   /// @param e event, see Events directory.
@@ -41,6 +43,7 @@ class CAZEL_API Application {
 
  private:
   static Application* s_Instance;
+  friend int ::main(int argc, char** argv);
 };
 
 /// To be defined in CLIENT.

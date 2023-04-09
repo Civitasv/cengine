@@ -44,6 +44,10 @@ void Application::Run() {
 
     m_Window->OnUpdate();
   }
+}
+
+void Application::ShutDown() {
+  m_Running = false;
   Renderer::Shutdown();
 }
 

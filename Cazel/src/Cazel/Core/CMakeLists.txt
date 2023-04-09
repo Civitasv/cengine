@@ -22,3 +22,9 @@ add_custom_command(TARGET Cazel POST_BUILD
       ${PROJECT_SOURCE_DIR}/res
       ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}/${CMAKE_HOST_SYSTEM_PROCESSOR}/Sandbox/lib/res
 )
+
+add_custom_command(TARGET Cazel POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory  
+      ${PROJECT_SOURCE_DIR}/res
+      ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}/${CMAKE_HOST_SYSTEM_PROCESSOR}/TheEditor/lib/res
+)

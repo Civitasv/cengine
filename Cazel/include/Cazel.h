@@ -11,10 +11,6 @@
 #include "Cazel/Core/Timestep.h"
 // ------------------
 
-// -- Entry Point ---
-#include "Cazel/Core/EntryPoint.h"
-// ------------------
-
 // -- Layer ---
 #include "Cazel/Core/Layer.h"
 #include "Cazel/imgui/ImGuiLayer.h"

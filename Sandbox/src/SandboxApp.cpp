@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Cazel.h"
+#include "Cazel/Core/EntryPoint.h"
 #include "imgui.h"
 
 using namespace Cazel;
