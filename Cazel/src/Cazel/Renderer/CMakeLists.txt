@@ -3,8 +3,9 @@ target_sources(Cazel PUBLIC
   Renderer.cpp 
   RendererAPI.cpp
   RenderCommand.cpp
+  Camera.cpp
   OrthographicCamera.cpp
-  EditorCamera.cpp
+  PerspectiveCamera.cpp
   VertexArray.cpp 
   Shader.cpp 
   Texture.cpp

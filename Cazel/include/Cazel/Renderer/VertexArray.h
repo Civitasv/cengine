@@ -5,6 +5,9 @@
 #include "Buffer.h"
 
 namespace Cazel {
+/// @brief The VertexArray contains the reference to VertexBuffer
+/// and IndexBuffer, the actual data is stored in VertexBuffer
+/// and IndexBuffer.
 class VertexArray {
  private:
   unsigned int m_RendererID;

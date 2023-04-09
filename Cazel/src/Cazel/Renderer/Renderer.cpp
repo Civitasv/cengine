@@ -15,7 +15,7 @@ void Renderer::OnWindowResize(uint32_t width, uint32_t height) {
   RenderCommand::SetViewport(0, 0, width, height);
 }
 
-void Renderer::BeginScene(OrthographicCamera& camera) {
+void Renderer::BeginScene(Camera& camera) {
   s_SceneData->ViewProjectMatrix = camera.GetViewProjectionMatrix();
 }
 
@@ -25,7 +25,9 @@ void Renderer::Submit(const Ref<Shader>& shader,
                       const Ref<VertexArray>& vertexArray,
                       const glm::mat4& transform) {
   shader->Bind();
+  // View and Projection matrix
   shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectMatrix);
+  // Model matrix
   shader->SetMat4("u_Transform", transform);
 
   vertexArray->Bind();

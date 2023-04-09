@@ -3,6 +3,7 @@
 #include "RendererAPI.h"
 
 namespace Cazel {
+/// @brief We can extend it as a command queue.
 class RenderCommand {
  public:
   static void Init() { s_RendererAPI->Init(); }

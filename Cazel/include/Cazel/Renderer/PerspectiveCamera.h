@@ -8,10 +8,11 @@
 #include "Cazel/Events/MouseEvent.h"
 
 namespace Cazel {
-class EditorCamera : public Camera {
+class PerspectiveCamera : public Camera {
  public:
-  EditorCamera() = default;
-  EditorCamera(float fov, float aspectRatio, float nearClip, float farClip);
+  PerspectiveCamera() = default;
+  PerspectiveCamera(float fov, float aspectRatio, float nearClip,
+                    float farClip);
 
   void OnUpdate(Timestep ts);
   void OnEvent(Event& e);
@@ -24,9 +25,6 @@ class EditorCamera : public Camera {
     m_ViewportHeight = height;
     UpdateProjection();
   }
-
-  const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
-  glm::mat4 GetViewProjection() const { return m_Projection * m_ViewMatrix; }
 
   glm::vec3 GetUpDirection() const;
   glm::vec3 GetRightDirection() const;
@@ -57,9 +55,7 @@ class EditorCamera : public Camera {
   float m_FOV = 45.0f, m_AspectRatio = 1.778f, m_NearClip = 0.1f,
         m_FarClip = 1000.0f;
 
-  glm::mat4 m_ViewMatrix;
-  glm::vec3 m_Position = {0.0f, 0.0f, 0.0f};
-  glm::vec3 m_FocalPoint = {0.0f, 0.0f, 0.0f};
+  glm::vec3 m_FocalPoint = {0.0f, 0.0f, 0.0f};  ///< 焦点
 
   glm::vec2 m_InitialMousePosition = {0.0f, 0.0f};
 

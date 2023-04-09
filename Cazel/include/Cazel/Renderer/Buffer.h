@@ -130,7 +130,7 @@ class BufferLayout {
 
  private:
   std::vector<BufferElement> m_Elements;
-  uint32_t m_Stride = 0; ///< 存储顶点数据中一组数据的长度
+  uint32_t m_Stride = 0; ///< 存储顶点数据中一组数据的长度, in BYTE
 };
 
 class VertexBuffer {
@@ -161,5 +161,4 @@ class IndexBuffer {
 
   static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 };
-
 }  // namespace Cazel

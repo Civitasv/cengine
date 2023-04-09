@@ -3,7 +3,6 @@
 #include "Cazel/Renderer/Buffer.h"
 
 namespace Cazel {
-
 class OpenGLVertexBuffer : public VertexBuffer {
  public:
   OpenGLVertexBuffer(uint32_t size);
@@ -39,5 +38,4 @@ class OpenGLIndexBuffer : public IndexBuffer {
   uint32_t m_RendererID;
   uint32_t m_Count;
 };
-
 }  // namespace Cazel
