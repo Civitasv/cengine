@@ -10,13 +10,13 @@ class OrthographicCamera : public Camera {
 
   void SetProjection(float left, float right, float bottom, float top);
 
-  void SetPosition(const glm::vec3& position) {
+  void SetPosition(const glm::vec3& position) override {
     m_Position = position;
     RecalculateViewMatrix();
   }
 
   float GetRotation() const { return m_Rotation; }
-  void SetRotation(float rotation) {
+  void SetRotation(float rotation) override {
     m_Rotation = rotation;
     RecalculateViewMatrix();
   }

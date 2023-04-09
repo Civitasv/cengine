@@ -4,11 +4,9 @@
 
 #include "Cazel/Core/Application.h"
 #include "Cazel/Core/Core.h"
-
 #include "Cazel/Core/Input.h"
 #include "Cazel/Core/KeyCodes.h"
 #include "Cazel/Core/MouseCodes.h"
-
 
 // -- Entry Point ---
 #include "Cazel/Core/EntryPoint.h"
@@ -21,4 +19,12 @@
 
 // -- Log ---
 #include "Cazel/Core/Log.h"
+// ----------
+
+// -- Renderer ---
+#include "Cazel/Renderer/Buffer.h"
+#include "Cazel/Renderer/RenderCommand.h"
+#include "Cazel/Renderer/Renderer.h"
+#include "Cazel/Renderer/Shader.h"
+#include "Cazel/Renderer/VertexArray.h"
 // ----------

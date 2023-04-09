@@ -46,6 +46,9 @@
 /// for std::bind, see https://en.cppreference.com/w/cpp/utility/functional/bind
 #define CZ_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
+#define CAZEL_DIMENSION TWO_D
+#define CAZEL_RENDERER_PLATFORM OPENGL
+
 namespace Cazel {
 template <typename T>
 using Scope = std::unique_ptr<T>;
@@ -75,5 +78,4 @@ class Timestep {
  private:
   float m_Time;
 };
-
 }  // namespace Cazel

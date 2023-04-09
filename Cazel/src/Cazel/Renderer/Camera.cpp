@@ -5,7 +5,11 @@
 #include "czpch.h"
 
 namespace Cazel {
+#if CAZEL_DIMENSION == TWO_D
+Camera::Type Camera::s_Type = Camera::Type::Two_D;
+#else
 Camera::Type Camera::s_Type = Camera::Type::Three_D;
+#endif
 
 Scope<Camera> Camera::Create(float a1, float a2, float a3, float a4) {
   switch (s_Type) {

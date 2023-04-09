@@ -20,7 +20,8 @@ Application::Application() {
   s_Instance = this;
 
   m_Window = std::unique_ptr<Window>(Window::Create());
-  // event handler
+  // event handler, we should use event system handle non-renderer stuff
+  // for rendering, we should use input polling.
   m_Window->SetEventCallback(CZ_BIND_EVENT_FN(Application::OnEvent));
 
   m_ImGuiLayer = new ImGuiLayer();
@@ -31,134 +32,7 @@ Application::~Application() {}
 
 void Application::Run() {
   Renderer::Init();
-
-  float vertices[] = {
-      // positions          // normals           // texture coords
-      -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, 0.0f,  0.0f,  0.5f,  -0.5f,
-      -0.5f, 0.0f,  0.0f,  -1.0f, 1.0f,  0.0f,  0.5f,  0.5f,  -0.5f, 0.0f,
-      0.0f,  -1.0f, 1.0f,  1.0f,  0.5f,  0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f,
-      1.0f,  1.0f,  -0.5f, 0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, 0.0f,  1.0f,
-      -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, 0.0f,  0.0f,
-
-      -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,  0.5f,  -0.5f,
-      0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,  0.5f,  0.5f,  0.5f,  0.0f,
-      0.0f,  1.0f,  1.0f,  1.0f,  0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
-      1.0f,  1.0f,  -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
-      -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
-
-      -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f,  1.0f,  0.0f,  -0.5f, 0.5f,
-      -0.5f, -1.0f, 0.0f,  0.0f,  1.0f,  1.0f,  -0.5f, -0.5f, -0.5f, -1.0f,
-      0.0f,  0.0f,  0.0f,  1.0f,  -0.5f, -0.5f, -0.5f, -1.0f, 0.0f,  0.0f,
-      0.0f,  1.0f,  -0.5f, -0.5f, 0.5f,  -1.0f, 0.0f,  0.0f,  0.0f,  0.0f,
-      -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f,  1.0f,  0.0f,
-
-      0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.5f,  0.5f,
-      -0.5f, 1.0f,  0.0f,  0.0f,  1.0f,  1.0f,  0.5f,  -0.5f, -0.5f, 1.0f,
-      0.0f,  0.0f,  0.0f,  1.0f,  0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,  0.0f,
-      0.0f,  1.0f,  0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
-      0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
-
-      -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f,  0.0f,  1.0f,  0.5f,  -0.5f,
-      -0.5f, 0.0f,  -1.0f, 0.0f,  1.0f,  1.0f,  0.5f,  -0.5f, 0.5f,  0.0f,
-      -1.0f, 0.0f,  1.0f,  0.0f,  0.5f,  -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f,
-      1.0f,  0.0f,  -0.5f, -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f,  0.0f,  0.0f,
-      -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f,  0.0f,  1.0f,
-
-      -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f,  0.0f,  1.0f,  0.5f,  0.5f,
-      -0.5f, 0.0f,  1.0f,  0.0f,  1.0f,  1.0f,  0.5f,  0.5f,  0.5f,  0.0f,
-      1.0f,  0.0f,  1.0f,  0.0f,  0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-      1.0f,  0.0f,  -0.5f, 0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
-      -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f,  0.0f,  1.0f};
-  unsigned int indices[36];
-  for (int i = 0; i < 36; i++) indices[i] = i;
-
-  // vertex array object
-  auto cube_vao = VertexArray::Create();
-  auto light_cube_vao = VertexArray::Create();
-  // vertex buffer object
-  auto vb = VertexBuffer::Create(vertices, sizeof(vertices));
-  // index buffer object
-  auto ib = IndexBuffer::Create(indices, 36);
-
-  // specify layout in vertex buffer
-  BufferLayout layout({{ShaderDataType::Float3, "position"},
-                       {ShaderDataType::Float3, "normal"},
-                       {ShaderDataType::Float2, "texture"}});
-  vb->SetLayout(layout);
-
-  cube_vao->AddVertexBuffer(vb);
-  light_cube_vao->AddVertexBuffer(vb);
-  cube_vao->SetIndexBuffer(ib);
-  light_cube_vao->SetIndexBuffer(ib);
-
-  auto lightingShader = Shader::Create("res/shaders/colors.shader");
-  auto lightCubeShader = Shader::Create("res/shaders/lights.shader");
-  glm::vec3 lightPos(1.0f, 0.5f, 0.2f);
-
-  auto camera = Camera::Create(30.0f, 1.333f, 0.1f, 1000.0f);
   while (m_Running) {
-    RenderCommand::Clear();
-    RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
-
-    // change the light's position values over time (can be done anywhere in
-    // the render loop actually, but try to do it at least before using the
-    // light source positions)
-    lightPos.x = sin(glfwGetTime());
-    lightPos.y = cos(glfwGetTime());
-
-    glm::mat4 projection = camera->GetProjectionMatrix();
-    glm::mat4 view = camera->GetViewMatrix();
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(1.0, 0.0, 1.0));
-
-    lightingShader->Bind();
-    lightingShader->SetMat4("projection", projection);
-    lightingShader->SetMat4("view", view);
-    lightingShader->SetMat4("model", model);
-
-    lightingShader->SetFloat3("light.position", lightPos);
-    lightingShader->SetFloat3("viewPos", camera->GetPosition());
-
-    // light properties
-    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
-    lightColor.x = sin(glfwGetTime() * 2.0f);
-    lightColor.y = sin(glfwGetTime() * 0.7f);
-    lightColor.z = sin(glfwGetTime() * 1.3f);
-    glm::vec3 diffuseColor = lightColor * glm::vec3(1.0f);
-    glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
-    lightingShader->SetFloat3("light.ambient", ambientColor);
-    lightingShader->SetFloat3("light.diffuse", diffuseColor);
-    lightingShader->SetFloat3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-
-    // material properties
-    lightingShader->SetFloat("material.shininess", 32.0f);
-
-    // light cube object
-    lightCubeShader->Bind();
-    lightCubeShader->SetMat4("projection", projection);
-    lightCubeShader->SetMat4("view", view);
-    lightCubeShader->SetFloat3("LightColor", lightColor);
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, lightPos);
-    model = glm::scale(model, glm::vec3(0.2f));  // a smaller cube
-    lightCubeShader->SetMat4("model", model);
-
-    lightingShader->Bind();
-    lightingShader->SetInt("material.diffuse", 0);
-    lightingShader->SetInt("material.specular", 1);
-    auto tex = Texture2D::Create("res/textures/container_diffuse.png");
-    auto tex2 = Texture2D::Create("res/textures/container_specular.png");
-
-    tex->Bind(0);
-    tex2->Bind(1);
-
-    Renderer::BeginScene(*camera);
-
-    Renderer::Submit(lightingShader, cube_vao);
-    Renderer::Submit(lightCubeShader, light_cube_vao);
-
-    Renderer::EndScene();
-
     for (Layer *layer : m_LayerStack) {
       layer->OnUpdate();  // 更新的时候，是从第一个到最后一个
     }
@@ -171,6 +45,7 @@ void Application::Run() {
 
     m_Window->OnUpdate();
   }
+  Renderer::Shutdown();
 }
 
 /// @brief Higher layer of callback.
