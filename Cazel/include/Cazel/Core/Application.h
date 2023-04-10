@@ -34,9 +34,10 @@ class CAZEL_API Application {
 
  private:
   bool OnWindowClose(WindowCloseEvent& e);
-  std::unique_ptr<Window> m_Window;
+  Scope<Window> m_Window;
   // For debug issues
-  ImGuiLayer* m_ImGuiLayer;
+  ImGuiLayer* m_ImGuiLayer;  ///< handled by layerstack, so I don't need to
+                             ///< release this memory
   bool m_Running = true;
   LayerStack m_LayerStack;
   float m_LastFrameTime = 0.0f;

@@ -4,8 +4,8 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace Cazel {
-std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
-std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
+Ref<spdlog::logger> Log::s_CoreLogger;
+Ref<spdlog::logger> Log::s_ClientLogger;
 
 void Log::Init() {
   // %v: actual text
@@ -22,9 +22,9 @@ void Log::Init() {
   s_ClientLogger->set_level(spdlog::level::trace);
 }
 
-inline std::shared_ptr<spdlog::logger>& Log::GetCoreLogger() { return s_CoreLogger; }
+inline Ref<spdlog::logger>& Log::GetCoreLogger() { return s_CoreLogger; }
 
-inline std::shared_ptr<spdlog::logger>& Log::GetClientLogger() {
+inline Ref<spdlog::logger>& Log::GetClientLogger() {
   return s_ClientLogger;
 }
 }  // namespace Cazel

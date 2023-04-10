@@ -13,7 +13,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach() {
   m_CheckerboardTexture =
-      Cazel::Texture2D::Create("res/textures/Checkerboard.png");
+      Cazel::Texture2D::Create("res/textures/container_diffuse.png");
 }
 
 void Sandbox2D::OnDetach() {}
@@ -35,7 +35,7 @@ void Sandbox2D::OnUpdate(Cazel::Timestep ts) {
 
     Cazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
     Cazel::Renderer2D::DrawRotatedQuad({-2.0f, 0.0f, 0.0f}, {1.0f, 1.0f},
-                                       rotation, m_CheckerboardTexture, 20.0f);
+                                       rotation, m_CheckerboardTexture, 2.0f);
     glm::mat4 transform =
         glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
     Cazel::Renderer2D::DrawCircle(transform, {1.0f, 1.0f, 1.0f, 1.0f});

@@ -1,9 +1,9 @@
 #include "Platform/Windows/WindowsWindow.h"
 
+#include "Cazel/Core/Log.h"
 #include "Cazel/Events/ApplicationEvent.h"
 #include "Cazel/Events/KeyEvent.h"
 #include "Cazel/Events/MouseEvent.h"
-#include "Cazel/Core/Log.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 #include "czpch.h"
 
@@ -139,16 +139,19 @@ void WindowsWindow::Init(const WindowProps &props) {
         data.EventCallback(event);
       });
 
-  glfwSetCursorPosCallback(m_Window, [](GLFWwindow *window, double xpos,
-                                        double ypos) {
-    WindowData &data =
-        *static_cast<WindowData *>(glfwGetWindowUserPointer(window));
-    MouseMovedEvent event((float)xpos, (float)ypos);
-    data.EventCallback(event);
-  });
+  glfwSetCursorPosCallback(
+      m_Window, [](GLFWwindow *window, double xpos, double ypos) {
+        WindowData &data =
+            *static_cast<WindowData *>(glfwGetWindowUserPointer(window));
+        MouseMovedEvent event((float)xpos, (float)ypos);
+        data.EventCallback(event);
+      });
 }
 
-void WindowsWindow::Shutdown() { glfwDestroyWindow(m_Window); }
+void WindowsWindow::Shutdown() {
+  glfwDestroyWindow(m_Window);
+  delete m_Context;
+}
 
 void WindowsWindow::SetVSync(bool enabled) {
   if (enabled) {

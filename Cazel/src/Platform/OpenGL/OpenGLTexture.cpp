@@ -14,7 +14,7 @@ OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
   glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
   glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
 
-  glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -53,6 +53,7 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : m_Path(path) {
     glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    // 当纹理坐标超出默认访问，会重复纹理，这也是 TilingFactor 能够作用的原因
     glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 

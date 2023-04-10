@@ -177,7 +177,11 @@ void Renderer2D::Init() {
       UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
 }
 
-void Renderer2D::Shutdown() { delete[] s_Data.QuadVertexBufferBase; }
+void Renderer2D::Shutdown() {
+  delete[] s_Data.QuadVertexBufferBase;
+  delete[] s_Data.CircleVertexBufferBase;
+  delete[] s_Data.LineVertexBufferBase;
+}
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera) {
   s_Data.CameraBuffer.ViewProjection = camera.GetViewProjectionMatrix();
@@ -308,6 +312,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color,
     s_Data.QuadVertexBufferPtr->Color = color;
     s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
     s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+    // tilingFactor 表示该 texture 被渲染的次数为 tilingFactor * tilingFactor
     s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
     s_Data.QuadVertexBufferPtr->EntityID = entityID;
     s_Data.QuadVertexBufferPtr++;
