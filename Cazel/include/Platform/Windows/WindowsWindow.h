@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Cazel/Renderer/GraphicsContext.h"
 #include "Cazel/Core/Window.h"
+#include "Cazel/Renderer/GraphicsContext.h"
 
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
@@ -18,6 +18,10 @@ class WindowsWindow : public Window {
   virtual inline unsigned int GetWidth() const override { return m_Data.Width; }
   virtual inline unsigned int GetHeight() const override {
     return m_Data.Height;
+  }
+
+  virtual inline float GetAspectRatio() const override {
+    return m_Data.Width / (m_Data.Height * 1.0f);
   }
 
   // Window attributes

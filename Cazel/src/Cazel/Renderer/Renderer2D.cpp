@@ -10,17 +10,19 @@
 #include "czpch.h"
 
 namespace Cazel {
+/// @brief See Renderer2D_Quad.glsl
 struct QuadVertex {
   glm::vec3 Position;
   glm::vec4 Color;
   glm::vec2 TexCoord;
-  float TexIndex;
+  float TexIndex;  // texture data
   float TilingFactor;
 
   // Editor-only
   int EntityID;
 };
 
+/// @brief See Renderer2D_Circle.glsl
 struct CircleVertex {
   glm::vec3 WorldPosition;
   glm::vec3 LocalPosition;
@@ -32,6 +34,7 @@ struct CircleVertex {
   int EntityID;
 };
 
+/// @brief See Renderer2D_Line.glsl
 struct LineVertex {
   glm::vec3 Position;
   glm::vec4 Color;
@@ -44,7 +47,7 @@ struct Renderer2DData {
   static const uint32_t MaxQuads = 20000;
   static const uint32_t MaxVertices = MaxQuads * 4;
   static const uint32_t MaxIndices = MaxQuads * 6;
-  static const uint32_t MaxTextureSlots = 32;  // TODO: RenderCaps
+  static const uint32_t MaxTextureSlots = 32;  // 最多支持的 texture 数量
 
   Ref<VertexArray> QuadVertexArray;
   Ref<VertexBuffer> QuadVertexBuffer;
@@ -296,7 +299,8 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color,
       {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}};
   const float tilingFactor = 1.0f;
 
-  if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices) NextBatch();
+  if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+    NextBatch();  // 如果大于最大点数，那么就先画一个 batch，再开启一个新 batch
 
   for (size_t i = 0; i < quadVertexCount; i++) {
     s_Data.QuadVertexBufferPtr->Position =
@@ -469,5 +473,4 @@ void Renderer2D::SetLineWidth(float width) { s_Data.LineWidth = width; }
 void Renderer2D::ResetStats() { memset(&s_Data.Stats, 0, sizeof(Statistics)); }
 
 Renderer2D::Statistics Renderer2D::GetStats() { return s_Data.Stats; }
-
 }  // namespace Cazel

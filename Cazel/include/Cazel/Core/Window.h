@@ -27,6 +27,8 @@ class CAZEL_API Window {
   virtual unsigned int GetWidth() const = 0;
   virtual unsigned int GetHeight() const = 0;
 
+  virtual float GetAspectRatio() const = 0;
+
   // 获取底层实现的不同平台的具体的 Window
   virtual void* GetNativeWindow() const = 0;
 

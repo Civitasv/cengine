@@ -3,7 +3,6 @@
 #include "Cazel/Renderer/UniformBuffer.h"
 
 namespace Cazel {
-
 class OpenGLUniformBuffer : public UniformBuffer {
  public:
   OpenGLUniformBuffer(uint32_t size, uint32_t binding);
