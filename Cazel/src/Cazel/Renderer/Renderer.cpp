@@ -1,13 +1,17 @@
 #include "Cazel/Renderer/Renderer.h"
 
 #include "Cazel/Renderer/RenderCommand.h"
+#include "Cazel/Renderer/Renderer2D.h"
 #include "czpch.h"
 
 namespace Cazel {
 Scope<Renderer::SceneData> Renderer::s_SceneData =
     CreateScope<Renderer::SceneData>();
 
-void Renderer::Init() { RenderCommand::Init(); }
+void Renderer::Init() {
+  RenderCommand::Init();
+  Renderer2D::Init();
+}
 
 void Renderer::Shutdown() {}
 

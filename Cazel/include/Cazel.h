@@ -26,4 +26,5 @@
 #include "Cazel/Renderer/Renderer.h"
 #include "Cazel/Renderer/Shader.h"
 #include "Cazel/Renderer/VertexArray.h"
+#include "Cazel/Renderer/OrthographicCameraController.h"
 // ----------

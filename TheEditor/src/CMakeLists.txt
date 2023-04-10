@@ -1,4 +1,4 @@
-add_executable(TheEditor TheEditor.cpp EditorLayer.cpp)
+add_executable(TheEditor TheEditor.cpp EditorLayer.cpp "../../Sandbox/src/Sandbox2D.cpp")
 
 target_include_directories(TheEditor PUBLIC 
 	${CMAKE_SOURCE_DIR}/Cazel/include)

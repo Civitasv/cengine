@@ -1,4 +1,4 @@
-add_executable(Sandbox SandboxApp.cpp)
+add_executable(Sandbox SandboxApp.cpp Sandbox2D.cpp)
 
 target_include_directories(Sandbox PUBLIC 
 	${CMAKE_SOURCE_DIR}/Cazel/include)

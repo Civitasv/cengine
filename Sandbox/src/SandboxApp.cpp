@@ -4,6 +4,7 @@
 
 #include "Cazel.h"
 #include "Cazel/Core/EntryPoint.h"
+#include "Sandbox2D.h"
 #include "imgui.h"
 
 using namespace Cazel;
@@ -49,13 +50,13 @@ class ExampleLayer : public Layer {
     RenderCommand::Clear();
     RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
-    if (Input::IsKeyPressed(CZ_KEY_W)) {
+    if (Input::IsKeyPressed(Key::W)) {
       camera_position.y -= camera_speed * ts;
-    } else if (Input::IsKeyPressed(CZ_KEY_A)) {
+    } else if (Input::IsKeyPressed(Key::A)) {
       camera_position.x += camera_speed * ts;
-    } else if (Input::IsKeyPressed(CZ_KEY_S)) {
+    } else if (Input::IsKeyPressed(Key::S)) {
       camera_position.y += camera_speed * ts;
-    } else if (Input::IsKeyPressed(CZ_KEY_D)) {
+    } else if (Input::IsKeyPressed(Key::D)) {
       camera_position.x -= camera_speed * ts;
     }
     camera->SetPosition(camera_position);
@@ -84,7 +85,7 @@ class ExampleLayer : public Layer {
 /// @brief Define Application.
 class Sandbox : public Application {
  public:
-  Sandbox() { PushLayer(new ExampleLayer()); }
+  Sandbox() { PushLayer(new Sandbox2D()); }
   ~Sandbox() {}
 };
 
