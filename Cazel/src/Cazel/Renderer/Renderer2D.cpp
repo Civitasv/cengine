@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Cazel/Bezier/Bezier.h"
 #include "Cazel/Renderer/RenderCommand.h"
 #include "Cazel/Renderer/Shader.h"
 #include "Cazel/Renderer/UniformBuffer.h"
@@ -427,7 +428,7 @@ void Renderer2D::DrawCircle(const glm::mat4& transform, const glm::vec4& color,
   s_Data.Stats.QuadCount++;
 }
 
-void Renderer2D::DrawLine(const glm::vec3& p0, glm::vec3& p1,
+void Renderer2D::DrawLine(const glm::vec3& p0, const glm::vec3& p1,
                           const glm::vec4& color, int entityID) {
   s_Data.LineVertexBufferPtr->Position = p0;
   s_Data.LineVertexBufferPtr->Color = color;
@@ -469,6 +470,51 @@ void Renderer2D::DrawRect(const glm::mat4& transform, const glm::vec4& color,
   DrawLine(lineVertices[1], lineVertices[2], color, entityID);
   DrawLine(lineVertices[2], lineVertices[3], color, entityID);
   DrawLine(lineVertices[3], lineVertices[0], color, entityID);
+}
+
+void Renderer2D::DrawLineBezier(const glm::vec2& start_pos,
+                                const glm::vec2& end_pos,
+                                const glm::vec4& color, float thickness) {
+  float delta = 0.001f;
+  glm::vec2 prev = start_pos;
+  glm::vec2 curr = start_pos;
+
+  for (float t = 0.0f; t <= 1.0f; t += delta) {
+    curr = Bezier::Linear(start_pos, end_pos, t);
+    DrawLine({prev, 0.0f}, {curr, 0.0f}, color);
+    prev = curr;
+  }
+}
+void Renderer2D::DrawLineBezierQuad(const glm::vec2& start_pos,
+                                    const glm::vec2& end_pos,
+                                    const glm::vec2& control_pos,
+                                    const glm::vec4& color, float thickness) {
+  float delta = 0.001f;
+  glm::vec2 prev = start_pos;
+  glm::vec2 curr = start_pos;
+
+  for (float t = 0; t <= 1; t += delta) {
+    curr = Bezier::Quadratic(start_pos, control_pos, end_pos, t);
+    DrawLine({prev, 0.0f}, {curr, 0.0f}, color);
+    prev = curr;
+  }
+}
+
+void Renderer2D::DrawLineBezierCubic(const glm::vec2& start_pos,
+                                     const glm::vec2& end_pos,
+                                     const glm::vec2& start_control_pos,
+                                     const glm::vec2& end_control_pos,
+                                     const glm::vec4& color, float thickness) {
+  float delta = 0.001f;
+  glm::vec2 prev = start_pos;
+  glm::vec2 curr = start_pos;
+
+  for (float t = 0; t <= 1; t += delta) {
+    curr = Bezier::Cubic(start_pos, start_control_pos, end_control_pos, end_pos,
+                         t);
+    DrawLine({prev, 0.0f}, {curr, 0.0f}, color);
+    prev = curr;
+  }
 }
 
 float Renderer2D::GetLineWidth() { return s_Data.LineWidth; }

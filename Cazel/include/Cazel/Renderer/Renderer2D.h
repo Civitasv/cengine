@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Cazel/Renderer/Camera.h"
-#include "Cazel/Renderer/PerspectiveCamera.h"
 #include "Cazel/Renderer/OrthographicCamera.h"
+#include "Cazel/Renderer/PerspectiveCamera.h"
 #include "Cazel/Renderer/Texture.h"
 
 namespace Cazel {
@@ -53,7 +53,7 @@ class Renderer2D {
                          float thickness = 1.0f, float fade = 0.005f,
                          int entityID = -1);
 
-  static void DrawLine(const glm::vec3& p0, glm::vec3& p1,
+  static void DrawLine(const glm::vec3& p0, const glm::vec3& p1,
                        const glm::vec4& color, int entityID = -1);
 
   static void DrawRect(const glm::vec3& position, const glm::vec2& size,
@@ -61,6 +61,20 @@ class Renderer2D {
   static void DrawRect(const glm::mat4& transform, const glm::vec4& color,
                        int entityID = -1);
 
+  static void DrawLineBezier(const glm::vec2& start_pos,
+                             const glm::vec2& end_pos, const glm::vec4& color,
+                             float thickness = 1.0f);
+  static void DrawLineBezierQuad(const glm::vec2& start_pos,
+                                 const glm::vec2& end_pos,
+                                 const glm::vec2& control_pos,
+                                 const glm::vec4& color,
+                                 float thickness = 1.0f);
+  static void DrawLineBezierCubic(const glm::vec2& start_pos,
+                                  const glm::vec2& end_pos,
+                                  const glm::vec2& start_control_pos,
+                                  const glm::vec2& end_control_pos,
+                                  const glm::vec4& color,
+                                  float thickness = 1.0f);
   static float GetLineWidth();
   static void SetLineWidth(float width);
 
