@@ -1,8 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 
-#include "VertexArray.h"
 #include "Cazel/Core/Core.h"
+#include "VertexArray.h"
 
 namespace Cazel {
 class RendererAPI {
@@ -21,6 +21,8 @@ class RendererAPI {
                            uint32_t indexCount = 0) = 0;
   virtual void DrawLines(const Ref<VertexArray>& vertexArray,
                          uint32_t vertexCount) = 0;
+  virtual void DrawLineStrip(const Ref<VertexArray>& vertexArray,
+                             uint32_t vertexCount) = 0;
 
   virtual void SetLineWidth(float width) = 0;
 

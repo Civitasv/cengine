@@ -71,6 +71,14 @@ void OpenGLRendererAPI::DrawLines(const Ref<VertexArray>& vertexArray,
   glDrawArrays(GL_LINES, 0, vertexCount);
 }
 
-void OpenGLRendererAPI::SetLineWidth(float width) { glLineWidth(width); }
+void OpenGLRendererAPI::DrawLineStrip(const Ref<VertexArray>& vertexArray,
+                                      uint32_t vertexCount) {
+  vertexArray->Bind();
+  glDrawArrays(GL_LINE_STRIP, 0, vertexCount);
+}
+
+void OpenGLRendererAPI::SetLineWidth(float width) {
+  // glLineWidth(width);
+}
 
 }  // namespace Cazel

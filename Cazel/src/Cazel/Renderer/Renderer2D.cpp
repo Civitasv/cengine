@@ -485,6 +485,7 @@ void Renderer2D::DrawLineBezier(const glm::vec2& start_pos,
     prev = curr;
   }
 }
+
 void Renderer2D::DrawLineBezierQuad(const glm::vec2& start_pos,
                                     const glm::vec2& end_pos,
                                     const glm::vec2& control_pos,
@@ -493,7 +494,7 @@ void Renderer2D::DrawLineBezierQuad(const glm::vec2& start_pos,
   glm::vec2 prev = start_pos;
   glm::vec2 curr = start_pos;
 
-  for (float t = 0; t <= 1; t += delta) {
+  for (float t = 0; t <= 1.0f; t += delta) {
     curr = Bezier::Quadratic(start_pos, control_pos, end_pos, t);
     DrawLine({prev, 0.0f}, {curr, 0.0f}, color);
     prev = curr;
@@ -509,7 +510,7 @@ void Renderer2D::DrawLineBezierCubic(const glm::vec2& start_pos,
   glm::vec2 prev = start_pos;
   glm::vec2 curr = start_pos;
 
-  for (float t = 0; t <= 1; t += delta) {
+  for (float t = 0; t <= 1.0f; t += delta) {
     curr = Bezier::Cubic(start_pos, start_control_pos, end_control_pos, end_pos,
                          t);
     DrawLine({prev, 0.0f}, {curr, 0.0f}, color);

@@ -42,6 +42,12 @@ void Sandbox2D::OnUpdate(Cazel::Timestep ts) {
                                            {-1.0f, 1.0f}, {1.0f, -1.0f},
                                            {1.0f, 0.0f, 0.0f, 1.0f}, 3.0f);
 
+    Cazel::Renderer2D::DrawRect({0.5f, 0.5f, 0.0f}, {0.5f, 0.5f},
+                                {1.0f, 1.0f, 1.0f, 1.0f});
+
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), {0.5f, 0.5f, 0.0f});
+    Cazel::Renderer2D::DrawCircle(transform, {1.0f, 1.0f, 1.0f, 1.0f});
+
     Cazel::Renderer2D::EndScene();
   }
 }
@@ -49,14 +55,6 @@ void Sandbox2D::OnUpdate(Cazel::Timestep ts) {
 void Sandbox2D::OnImGuiRender() {
   ImGui::Begin("Settings");
 
-  auto stats = Cazel::Renderer2D::GetStats();
-  ImGui::Text("Renderer2D Stats:");
-  ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-  ImGui::Text("Quads: %d", stats.QuadCount);
-  ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-  ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-
-  ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
   ImGui::End();
 }
 
