@@ -118,7 +118,6 @@ void OpenGLShader::Compile(
 
   // Link our program
   glLinkProgram(program);
-  glValidateProgram(program);
 
   // Note the different functions here: glGetProgram* instead of glGetShader*.
   GLint isLinked = 0;

@@ -35,7 +35,7 @@ void main()
 #type geom
 #version 450 core
 layout (lines_adjacency) in; // 基元类型模式 lines_adjacency, 输入图元邻接线，输入数组 gl_in[] 大小为4，刚好绘制三次 bezier 曲线需要四个控制点
-layout (line_strip, max_vertices = 256) out; // 将一个点变为最多 256 个可连成线条的点 交给 FragShader
+layout (line_strip, max_vertices = 32) out; // 将一个点变为最多 32 个可连成线条的点 交给 FragShader
 
 struct VertexOutput {
   vec4 Color;
@@ -47,7 +47,7 @@ layout (location = 0) out VertexOutput Output;
 layout (location = 1) out flat int g_EntityID;
 
 void creatBezier(){
-  int segments = 256;
+  int segments = 32;
   float delta = 1.0 / float(segments);
   vec4 v;
   for (int i = 0; i <= segments; ++i)
