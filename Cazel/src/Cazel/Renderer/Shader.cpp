@@ -19,13 +19,14 @@ Ref<Shader> Shader::Create(const std::string& filepath) {
 }
 
 Ref<Shader> Shader::Create(const std::string& vertexSrc,
-                           const std::string& fragmentSrc) {
+                           const std::string& fragmentSrc,
+                           const std::string& geomSrc) {
   switch (Renderer::GetAPI()) {
     case RendererAPI::API::None:
       CZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
       return nullptr;
     case RendererAPI::API::OpenGL:
-      return CreateRef<OpenGLShader>(vertexSrc, fragmentSrc);
+      return CreateRef<OpenGLShader>(vertexSrc, fragmentSrc, geomSrc);
   }
 
   CZ_CORE_ASSERT(false, "Unknown RendererAPI!");

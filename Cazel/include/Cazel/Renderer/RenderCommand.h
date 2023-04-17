@@ -29,6 +29,11 @@ class RenderCommand {
     s_RendererAPI->DrawLines(vertexArray, vertexCount);
   }
 
+  static void DrawLineStrip(const Ref<VertexArray>& vertexArray,
+                            uint32_t vertexCount) {
+    s_RendererAPI->DrawLineStrip(vertexArray, vertexCount);
+  }
+
   static void SetLineWidth(float width) { s_RendererAPI->SetLineWidth(width); }
 
  private:

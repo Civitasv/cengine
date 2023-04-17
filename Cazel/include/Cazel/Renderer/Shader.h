@@ -25,6 +25,7 @@ class Shader {
 
   static Ref<Shader> Create(const std::string& filepath);
   static Ref<Shader> Create(const std::string& vertexSrc,
-                            const std::string& fragmentSrc);
+                            const std::string& fragmentSrc,
+                            const std::string& geomSrc = nullptr);
 };
 }  // namespace Cazel

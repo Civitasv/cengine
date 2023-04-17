@@ -12,6 +12,7 @@ namespace Cazel {
 static GLenum ShaderTypeFromString(const std::string& type) {
   if (type == "vertex") return GL_VERTEX_SHADER;
   if (type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
+  if (type == "geom") return GL_GEOMETRY_SHADER;
 
   CZ_CORE_ASSERT(false, "Unknown shader type!");
   return 0;
@@ -24,10 +25,12 @@ OpenGLShader::OpenGLShader(const std::string& filepath) {
 }
 
 OpenGLShader::OpenGLShader(const std::string& vertexSrc,
-                           const std::string& fragmentSrc) {
+                           const std::string& fragmentSrc,
+                           const std::string& geomSrc) {
   std::unordered_map<GLenum, std::string> sources;
   sources[GL_VERTEX_SHADER] = vertexSrc;
   sources[GL_FRAGMENT_SHADER] = fragmentSrc;
+  sources[GL_GEOMETRY_SHADER] = geomSrc;
   Compile(sources);
 }
 
@@ -82,7 +85,7 @@ void OpenGLShader::Compile(
   for (auto& kv : shaderSources) {
     GLenum type = kv.first;
     const std::string& source = kv.second;
-
+    //CZ_CORE_TRACE("SOURCE: {0}", source);
     GLuint shader = glCreateShader(type);
 
     const GLchar* sourceCStr = source.c_str();
@@ -102,6 +105,7 @@ void OpenGLShader::Compile(
       glDeleteShader(shader);
 
       CZ_CORE_ERROR("{0}", infoLog.data());
+
       CZ_CORE_ASSERT(false, "Shader compilation failure!");
       break;
     }

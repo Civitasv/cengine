@@ -11,7 +11,10 @@ namespace Cazel {
 class OpenGLShader : public Shader {
  public:
   OpenGLShader(const std::string& filepath);
-  OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+
+  /// string representation of vertex shader, fragment shader and geom shader.
+  OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc,
+               const std::string& geomSrc = nullptr);
 
   virtual ~OpenGLShader();
 

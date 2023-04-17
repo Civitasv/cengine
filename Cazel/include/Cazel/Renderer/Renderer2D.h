@@ -61,18 +61,10 @@ class Renderer2D {
   static void DrawRect(const glm::mat4& transform, const glm::vec4& color,
                        int entityID = -1);
 
-  static void DrawLineBezier(const glm::vec2& start_pos,
-                             const glm::vec2& end_pos, const glm::vec4& color,
-                             float thickness = 1.0f);
-  static void DrawLineBezierQuad(const glm::vec2& start_pos,
-                                 const glm::vec2& end_pos,
-                                 const glm::vec2& control_pos,
-                                 const glm::vec4& color,
-                                 float thickness = 1.0f);
-  static void DrawLineBezierCubic(const glm::vec2& start_pos,
-                                  const glm::vec2& end_pos,
-                                  const glm::vec2& start_control_pos,
-                                  const glm::vec2& end_control_pos,
+  static void DrawLineBezierCubic(const glm::vec3& start_pos,
+                                  const glm::vec3& start_control_pos,
+                                  const glm::vec3& end_control_pos,
+                                  const glm::vec3& end_pos,
                                   const glm::vec4& color,
                                   float thickness = 1.0f);
   static float GetLineWidth();

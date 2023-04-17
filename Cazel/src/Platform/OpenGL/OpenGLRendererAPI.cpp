@@ -74,7 +74,7 @@ void OpenGLRendererAPI::DrawLines(const Ref<VertexArray>& vertexArray,
 void OpenGLRendererAPI::DrawLineStrip(const Ref<VertexArray>& vertexArray,
                                       uint32_t vertexCount) {
   vertexArray->Bind();
-  glDrawArrays(GL_LINE_STRIP, 0, vertexCount);
+  glDrawArrays(GL_LINES_ADJACENCY, 0, vertexCount);
 }
 
 void OpenGLRendererAPI::SetLineWidth(float width) {

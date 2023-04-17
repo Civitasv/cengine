@@ -35,18 +35,12 @@ void Sandbox2D::OnUpdate(Cazel::Timestep ts) {
 
     Cazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-    Cazel::Renderer2D::DrawLineBezier({-2.0f, 0.0f}, {2.0f, 0.0f},
-                                      {1.0f, 0.0f, 0.0f, 1.0f}, 3.0f);
+    Cazel::Renderer2D::DrawLineBezierCubic(
+        {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {2.0f, 0.1f, 0.0f},
+        {3.0f, 1.6f, 0.0f}, {1.0f, 1.0f, 0.0f, 1.0f}, 3.0f);
 
-    Cazel::Renderer2D::DrawLineBezierCubic({-2.0f, 0.0f}, {2.0f, 0.0f},
-                                           {-1.0f, 1.0f}, {1.0f, -1.0f},
-                                           {1.0f, 0.0f, 0.0f, 1.0f}, 3.0f);
-
-    Cazel::Renderer2D::DrawRect({0.5f, 0.5f, 0.0f}, {0.5f, 0.5f},
+    Cazel::Renderer2D::DrawRect({1.5f, 0.8f, 0.0f}, {3.0f, 1.6f},
                                 {1.0f, 1.0f, 1.0f, 1.0f});
-
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), {0.5f, 0.5f, 0.0f});
-    Cazel::Renderer2D::DrawCircle(transform, {1.0f, 1.0f, 1.0f, 1.0f});
 
     Cazel::Renderer2D::EndScene();
   }

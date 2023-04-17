@@ -35,6 +35,15 @@ struct CircleVertex {
   int EntityID;
 };
 
+/// @brief See Renderer2D_Curve.glsl
+struct BezierVertex {
+  glm::vec3 Position;
+  glm::vec4 Color;
+
+  // Editor-only
+  int EntityID;
+};
+
 /// @brief See Renderer2D_Line.glsl
 struct LineVertex {
   glm::vec3 Position;
@@ -59,6 +68,10 @@ struct Renderer2DData {
   Ref<VertexBuffer> CircleVertexBuffer;
   Ref<Shader> CircleShader;
 
+  Ref<VertexArray> BezierVertexArray;
+  Ref<VertexBuffer> BezierVertexBuffer;
+  Ref<Shader> BezierShader;
+
   Ref<VertexArray> LineVertexArray;
   Ref<VertexBuffer> LineVertexBuffer;
   Ref<Shader> LineShader;
@@ -71,6 +84,10 @@ struct Renderer2DData {
   CircleVertex* CircleVertexBufferBase = nullptr;
   CircleVertex* CircleVertexBufferPtr = nullptr;
 
+  uint32_t BezierVertexCount = 0;
+  BezierVertex* BezierVertexBufferBase = nullptr;
+  BezierVertex* BezierVertexBufferPtr = nullptr;
+
   uint32_t LineVertexCount = 0;
   LineVertex* LineVertexBufferBase = nullptr;
   LineVertex* LineVertexBufferPtr = nullptr;
@@ -81,6 +98,8 @@ struct Renderer2DData {
   uint32_t TextureSlotIndex = 1;  // 0 = white texture
 
   glm::vec4 QuadVertexPositions[4];
+
+  glm::vec4 BezierVertexPositions[4];
 
   Renderer2D::Statistics Stats;
 
@@ -143,6 +162,16 @@ void Renderer2D::Init() {
   s_Data.CircleVertexArray->SetIndexBuffer(quadIB);  // Use quad IB
   s_Data.CircleVertexBufferBase = new CircleVertex[s_Data.MaxVertices];
 
+  // Bezier
+  s_Data.BezierVertexArray = VertexArray::Create();
+  s_Data.BezierVertexBuffer =
+      VertexBuffer::Create(s_Data.MaxVertices * sizeof(BezierVertex));
+  s_Data.BezierVertexBuffer->SetLayout({{ShaderDataType::Float3, "a_Position"},
+                                        {ShaderDataType::Float4, "a_Color"},
+                                        {ShaderDataType::Int, "a_EntityID"}});
+  s_Data.BezierVertexArray->AddVertexBuffer(s_Data.BezierVertexBuffer);
+  s_Data.BezierVertexBufferBase = new BezierVertex[s_Data.MaxVertices];
+
   // Lines
   s_Data.LineVertexArray = VertexArray::Create();
 
@@ -164,15 +193,23 @@ void Renderer2D::Init() {
 
   s_Data.QuadShader = Shader::Create("res/shaders/Renderer2D_Quad.glsl");
   s_Data.CircleShader = Shader::Create("res/shaders/Renderer2D_Circle.glsl");
+  s_Data.BezierShader = Shader::Create("res/shaders/Renderer2D_Curve.glsl");
   s_Data.LineShader = Shader::Create("res/shaders/Renderer2D_Line.glsl");
 
   // Set first texture slot to 0
   s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 
+  // Quad vertex initialize
   s_Data.QuadVertexPositions[0] = {-0.5f, -0.5f, 0.0f, 1.0f};
   s_Data.QuadVertexPositions[1] = {0.5f, -0.5f, 0.0f, 1.0f};
   s_Data.QuadVertexPositions[2] = {0.5f, 0.5f, 0.0f, 1.0f};
   s_Data.QuadVertexPositions[3] = {-0.5f, 0.5f, 0.0f, 1.0f};
+
+  // Bezier control points initialize
+  s_Data.BezierVertexPositions[0] = {-0.5f, -0.5f, 0.0f, 1.0f};
+  s_Data.BezierVertexPositions[1] = {0.5f, -0.5f, 0.0f, 1.0f};
+  s_Data.BezierVertexPositions[2] = {0.5f, 0.5f, 0.0f, 1.0f};
+  s_Data.BezierVertexPositions[3] = {-0.5f, 0.5f, 0.0f, 1.0f};
 
   s_Data.CameraUniformBuffer =
       UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
@@ -182,6 +219,7 @@ void Renderer2D::Shutdown() {
   delete[] s_Data.QuadVertexBufferBase;
   delete[] s_Data.CircleVertexBufferBase;
   delete[] s_Data.LineVertexBufferBase;
+  delete[] s_Data.BezierVertexBufferBase;
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera) {
@@ -218,6 +256,9 @@ void Renderer2D::StartBatch() {
   s_Data.CircleIndexCount = 0;
   s_Data.CircleVertexBufferPtr = s_Data.CircleVertexBufferBase;
 
+  s_Data.BezierVertexCount = 0;
+  s_Data.BezierVertexBufferPtr = s_Data.BezierVertexBufferBase;
+
   s_Data.LineVertexCount = 0;
   s_Data.LineVertexBufferPtr = s_Data.LineVertexBufferBase;
 
@@ -247,6 +288,18 @@ void Renderer2D::Flush() {
     s_Data.CircleShader->Bind();
     RenderCommand::DrawIndexed(s_Data.CircleVertexArray,
                                s_Data.CircleIndexCount);
+    s_Data.Stats.DrawCalls++;
+  }
+
+  if (s_Data.BezierVertexCount) {
+    uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.BezierVertexBufferPtr -
+                                   (uint8_t*)s_Data.BezierVertexBufferBase);
+    s_Data.BezierVertexBuffer->SetData(s_Data.BezierVertexBufferBase, dataSize);
+
+    s_Data.BezierShader->Bind();
+    RenderCommand::SetLineWidth(s_Data.LineWidth);
+    RenderCommand::DrawLineStrip(s_Data.BezierVertexArray,
+                                 s_Data.BezierVertexCount);
     s_Data.Stats.DrawCalls++;
   }
 
@@ -472,50 +525,32 @@ void Renderer2D::DrawRect(const glm::mat4& transform, const glm::vec4& color,
   DrawLine(lineVertices[3], lineVertices[0], color, entityID);
 }
 
-void Renderer2D::DrawLineBezier(const glm::vec2& start_pos,
-                                const glm::vec2& end_pos,
-                                const glm::vec4& color, float thickness) {
-  float delta = 0.001f;
-  glm::vec2 prev = start_pos;
-  glm::vec2 curr = start_pos;
-
-  for (float t = 0.0f; t <= 1.0f; t += delta) {
-    curr = Bezier::Linear(start_pos, end_pos, t);
-    DrawLine({prev, 0.0f}, {curr, 0.0f}, color);
-    prev = curr;
-  }
-}
-
-void Renderer2D::DrawLineBezierQuad(const glm::vec2& start_pos,
-                                    const glm::vec2& end_pos,
-                                    const glm::vec2& control_pos,
-                                    const glm::vec4& color, float thickness) {
-  float delta = 0.001f;
-  glm::vec2 prev = start_pos;
-  glm::vec2 curr = start_pos;
-
-  for (float t = 0; t <= 1.0f; t += delta) {
-    curr = Bezier::Quadratic(start_pos, control_pos, end_pos, t);
-    DrawLine({prev, 0.0f}, {curr, 0.0f}, color);
-    prev = curr;
-  }
-}
-
-void Renderer2D::DrawLineBezierCubic(const glm::vec2& start_pos,
-                                     const glm::vec2& end_pos,
-                                     const glm::vec2& start_control_pos,
-                                     const glm::vec2& end_control_pos,
+void Renderer2D::DrawLineBezierCubic(const glm::vec3& start_pos,
+                                     const glm::vec3& start_control_pos,
+                                     const glm::vec3& end_control_pos,
+                                     const glm::vec3& end_pos,
                                      const glm::vec4& color, float thickness) {
-  float delta = 0.001f;
-  glm::vec2 prev = start_pos;
-  glm::vec2 curr = start_pos;
+  s_Data.BezierVertexBufferPtr->Position = start_pos;
+  s_Data.BezierVertexBufferPtr->Color = color;
+  s_Data.BezierVertexBufferPtr->EntityID = 1;
+  s_Data.BezierVertexBufferPtr++;
 
-  for (float t = 0; t <= 1.0f; t += delta) {
-    curr = Bezier::Cubic(start_pos, start_control_pos, end_control_pos, end_pos,
-                         t);
-    DrawLine({prev, 0.0f}, {curr, 0.0f}, color);
-    prev = curr;
-  }
+  s_Data.BezierVertexBufferPtr->Position = start_control_pos;
+  s_Data.BezierVertexBufferPtr->Color = color;
+  s_Data.BezierVertexBufferPtr->EntityID = 1;
+  s_Data.BezierVertexBufferPtr++;
+
+  s_Data.BezierVertexBufferPtr->Position = end_control_pos;
+  s_Data.BezierVertexBufferPtr->Color = color;
+  s_Data.BezierVertexBufferPtr->EntityID = 1;
+  s_Data.BezierVertexBufferPtr++;
+
+  s_Data.BezierVertexBufferPtr->Position = end_pos;
+  s_Data.BezierVertexBufferPtr->Color = color;
+  s_Data.BezierVertexBufferPtr->EntityID = 1;
+  s_Data.BezierVertexBufferPtr++;
+
+  s_Data.BezierVertexCount += 4;
 }
 
 float Renderer2D::GetLineWidth() { return s_Data.LineWidth; }
