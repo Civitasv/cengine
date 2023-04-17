@@ -6,6 +6,8 @@ This is cengine, not write using C, but use C++.
 
 ![Showcase](images/showcase.png)
 
+![Bezier](images/bezier.png)
+
 ## 总体架构
 
 
