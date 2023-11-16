@@ -46,7 +46,7 @@ void Sandbox2D::OnUpdate(Cazel::Timestep ts) {
   }*/
 
   {
-		static float rotation = 0.0f;aa
+		static float rotation = 0.0f;
 		rotation += ts * 50.0f;
 
 		Cazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
