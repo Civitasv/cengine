@@ -8,6 +8,8 @@ This is cengine, not write using C, but use C++.
 
 ![Bezier](images/bezier.png)
 
+![Pic](images/pic.png)
+
 ## 总体架构
 
 
